@@ -238,7 +238,7 @@ execution.setVariable("checkProtection",true);</camunda:script>
       <bpmn:incoming>Flow_0c9kd76</bpmn:incoming>
       <bpmn:outgoing>Flow_1oryk7g</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:userTask id="Activity_1g0oh2b" name="بررسی نواقص مدارک حفاظت" camunda:formKey="embedded:/forms/formio.html?deployment=CheckResult.json&#38;var=requestData" camunda:assignee="${starter}">
+    <bpmn:userTask id="Activity_1g0oh2b" name="بررسی نواقص مدارک حفاظت" camunda:formKey="embedded:/forms/formio.html?deployment=CheckResultP.json&#38;var=requestData" camunda:assignee="${starter}">
       <bpmn:incoming>Flow_124do41</bpmn:incoming>
       <bpmn:outgoing>Flow_174u93m</bpmn:outgoing>
     </bpmn:userTask>
@@ -247,7 +247,7 @@ execution.setVariable("checkProtection",true);</camunda:script>
       <bpmn:outgoing>Flow_0c9kd76</bpmn:outgoing>
       <bpmn:outgoing>Flow_124do41</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:userTask id="Activity_1kmhgnj" name="بررسی نواقص مدارک مکانیک" camunda:formKey="embedded:/forms/formio.html?deployment=CheckResult.json&#38;var=requestData" camunda:assignee="${starter}">
+    <bpmn:userTask id="Activity_1kmhgnj" name="بررسی نواقص مدارک مکانیک" camunda:formKey="embedded:/forms/formio.html?deployment=CheckResultM.json&#38;var=requestData" camunda:assignee="${starter}">
       <bpmn:incoming>Flow_0eacik5</bpmn:incoming>
       <bpmn:outgoing>Flow_0w9h8sh</bpmn:outgoing>
     </bpmn:userTask>
@@ -256,7 +256,7 @@ execution.setVariable("checkProtection",true);</camunda:script>
       <bpmn:outgoing>Flow_0eacik5</bpmn:outgoing>
       <bpmn:outgoing>Flow_1oce1r7</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:userTask id="Activity_1gwcctk" name="بررسی نواقص مدارک جوش" camunda:formKey="embedded:/forms/formio.html?deployment=CheckResult.json&#38;var=requestData" camunda:assignee="${starter}">
+    <bpmn:userTask id="Activity_1gwcctk" name="بررسی نواقص مدارک جوش" camunda:formKey="embedded:/forms/formio.html?deployment=CheckResultW.json&#38;var=requestData" camunda:assignee="${starter}">
       <bpmn:incoming>Flow_0ms2o3l</bpmn:incoming>
       <bpmn:outgoing>Flow_19cf7vh</bpmn:outgoing>
     </bpmn:userTask>
