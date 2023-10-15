@@ -142,7 +142,7 @@ x.data.processData.weld=true;
 execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
         </camunda:executionListener>
       </bpmn:extensionElements>
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${requestData.prop('data').prop('processData').prop('completeDocW').value == "yes"}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${requestData.prop('data').prop('processData').prop('completeDocW').value() == "yes"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_04kuq4v" sourceRef="Activity_1ewimjv" targetRef="Gateway_1hfxdl2" />
     <bpmn:sequenceFlow id="Flow_1oce1r7" name="بله" sourceRef="Gateway_1hfxdl2" targetRef="Activity_0rzrezb">
@@ -155,7 +155,7 @@ x.data.processData.mechanic=true;
 execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
         </camunda:executionListener>
       </bpmn:extensionElements>
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${requestData.prop('data').prop('processData').prop('completeDocM').value == "yes"}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${requestData.prop('data').prop('processData').prop('completeDocM').value() == "yes"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0hy16nn" sourceRef="Activity_0fz8tmq" targetRef="Gateway_1yiojcj" />
     <bpmn:sequenceFlow id="Flow_0c9kd76" name="بله" sourceRef="Gateway_1yiojcj" targetRef="Activity_0a4k6rm">
@@ -182,7 +182,7 @@ execution.setVariable("checkMechanic",false);
 execution.setVariable("checkProtection",false);</camunda:script>
         </camunda:executionListener>
       </bpmn:extensionElements>
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${requestData.prop('data').prop('processData').prop('completeDocW').value == "no"}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${requestData.prop('data').prop('processData').prop('completeDocW').value() == "no"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0eacik5" name="خیر" sourceRef="Gateway_1hfxdl2" targetRef="Activity_1kmhgnj">
       <bpmn:extensionElements>
@@ -192,7 +192,7 @@ execution.setVariable("checkMechanic",true);
 execution.setVariable("checkProtection",false);</camunda:script>
         </camunda:executionListener>
       </bpmn:extensionElements>
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${requestData.prop('data').prop('processData').prop('completeDocM').value == "no"}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${requestData.prop('data').prop('processData').prop('completeDocM').value() == "no"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_124do41" name="خیر" sourceRef="Gateway_1yiojcj" targetRef="Activity_1g0oh2b">
       <bpmn:extensionElements>
