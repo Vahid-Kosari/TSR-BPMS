@@ -659,11 +659,11 @@ execution.setVariable("checkProtection",true);</camunda:script>
       <bpmndi:BPMNEdge id="Flow_13ekqgr_di" bpmnElement="Flow_13ekqgr">
         <di:waypoint x="2310" y="795" />
         <di:waypoint x="2310" y="840" />
-        <di:waypoint x="1510" y="840" />
-        <di:waypoint x="1510" y="1930" />
+        <di:waypoint x="1500" y="840" />
+        <di:waypoint x="1500" y="1930" />
         <di:waypoint x="1281" y="1930" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1512" y="1065" width="16" height="14" />
+          <dc:Bounds x="1502" y="1065" width="16" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0ers6ya_di" bpmnElement="Flow_0ers6ya">
