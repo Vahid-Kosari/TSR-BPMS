@@ -27,7 +27,6 @@
         <bpmn:flowNodeRef>Gateway_1hfxdl2</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_1kmhgnj</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_1yiojcj</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_1g0oh2b</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_0a4k6rm</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_0fz8tmq</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_0y3i7v4</bpmn:flowNodeRef>
@@ -35,6 +34,7 @@
         <bpmn:flowNodeRef>Activity_0rzrezb</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_13q9cod</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_1gnlbfz</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_1g0oh2b</bpmn:flowNodeRef>
         <bpmn:childLaneSet id="LaneSet_0v48u4h">
           <bpmn:lane id="Lane_1u4ovzx" name="مکانیک">
             <bpmn:flowNodeRef>Gateway_1omlnyz</bpmn:flowNodeRef>
@@ -238,10 +238,6 @@ execution.setVariable("checkProtection",true);</camunda:script>
       <bpmn:incoming>Flow_0c9kd76</bpmn:incoming>
       <bpmn:outgoing>Flow_1oryk7g</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:userTask id="Activity_1g0oh2b" name="بررسی نواقص مدارک حفاظت" camunda:formKey="embedded:/forms/formio.html?deployment=CheckResultP.json&#38;var=requestData" camunda:assignee="${starter}">
-      <bpmn:incoming>Flow_124do41</bpmn:incoming>
-      <bpmn:outgoing>Flow_174u93m</bpmn:outgoing>
-    </bpmn:userTask>
     <bpmn:exclusiveGateway id="Gateway_1yiojcj" name="مدارک کامل است؟">
       <bpmn:incoming>Flow_0hy16nn</bpmn:incoming>
       <bpmn:outgoing>Flow_0c9kd76</bpmn:outgoing>
@@ -283,7 +279,7 @@ execution.setVariable("checkProtection",true);</camunda:script>
       <bpmn:incoming>Flow_1716dnp</bpmn:incoming>
       <bpmn:outgoing>Flow_0ers6ya</bpmn:outgoing>
     </bpmn:manualTask>
-    <bpmn:userTask id="Activity_0ovajqr" name="بررسی واحد جوش" camunda:assignee="${starter}">
+    <bpmn:userTask id="Activity_0ovajqr" name="بررسی واحد جوش" camunda:formKey="embedded:/forms/formio.html?deployment=ConfirmWorkW.json&#38;var=requestData" camunda:assignee="${starter}">
       <bpmn:incoming>Flow_0ers6ya</bpmn:incoming>
       <bpmn:outgoing>Flow_1nlb7bz</bpmn:outgoing>
     </bpmn:userTask>
@@ -296,11 +292,11 @@ execution.setVariable("checkProtection",true);</camunda:script>
       <bpmn:incoming>Flow_1pibv0x</bpmn:incoming>
       <bpmn:outgoing>Flow_00nk6f9</bpmn:outgoing>
     </bpmn:manualTask>
-    <bpmn:userTask id="Activity_0sjop7j" name="بررسی واحد مکانی" camunda:assignee="${starter}">
+    <bpmn:userTask id="Activity_0sjop7j" name="بررسی واحد مکانی" camunda:formKey="embedded:/forms/formio.html?deployment=ConfirmWorkM.json&#38;var=requestData" camunda:assignee="${starter}">
       <bpmn:incoming>Flow_00nk6f9</bpmn:incoming>
       <bpmn:outgoing>Flow_0hklyvb</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:userTask id="Activity_1jmjhf1" name="بررسی واحد حفاظت" camunda:assignee="${starter}">
+    <bpmn:userTask id="Activity_1jmjhf1" name="بررسی واحد حفاظت" camunda:formKey="embedded:/forms/formio.html?deployment=ConfirmWorkP.json&#38;var=requestData" camunda:assignee="${starter}">
       <bpmn:incoming>Flow_0cwd3i6</bpmn:incoming>
       <bpmn:outgoing>Flow_0l7xh8t</bpmn:outgoing>
     </bpmn:userTask>
@@ -393,6 +389,10 @@ execution.setVariable("checkProtection",true);</camunda:script>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_1pibv0x" sourceRef="Activity_03ljs1z" targetRef="Activity_11sikyb" />
     <bpmn:sequenceFlow id="Flow_0py1jax" sourceRef="Activity_0j7gp4i" targetRef="Activity_02zqk1w" />
+    <bpmn:userTask id="Activity_1g0oh2b" name="بررسی نواقص مدارک حفاظت" camunda:formKey="embedded:/forms/formio.html?deployment=CheckResultP.json&#38;var=requestData" camunda:assignee="${starter}">
+      <bpmn:incoming>Flow_124do41</bpmn:incoming>
+      <bpmn:outgoing>Flow_174u93m</bpmn:outgoing>
+    </bpmn:userTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0hbol3d">
