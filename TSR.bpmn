@@ -96,17 +96,7 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${checkProtection}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_1lpup9q" sourceRef="Gateway_1omlnyz" targetRef="Activity_1ewimjv">
-      <bpmn:extensionElements>
-        <camunda:executionListener event="take">
-          <camunda:script scriptFormat="javascript">var x= JSON.parse(requestData);
-x.data.processData.revisionTextM = {
-        key: "revisionTextM",
-        type: "textarea",
-        hidden: true
-    };
-execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
-        </camunda:executionListener>
-      </bpmn:extensionElements>
+      <bpmn:extensionElements />
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${checkMechanic}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_1r1813y" sourceRef="Gateway_1omlnyz" targetRef="Activity_1rje9nz">
@@ -215,13 +205,33 @@ execution.setVariable("checkProtection",true);</camunda:script>
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${requestData.prop('data').prop('processData').prop('completeDocP').value() == "no"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_1utx4yq" name="بازنگری" sourceRef="Gateway_07agfn8" targetRef="Activity_1rje9nz">
+      <bpmn:extensionElements>
+        <camunda:executionListener event="take">
+          <camunda:script scriptFormat="javascript">var x= JSON.parse(requestData);
+x.data.processData.HiddenFieldForBossRevissionW=true;
+execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${requestData.prop('data').prop('processData').prop('resultW').value() == "revise"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0iucckv" name="بازنگری" sourceRef="Gateway_1gnlbfz" targetRef="Activity_1ewimjv">
-      <bpmn:extensionElements />
+      <bpmn:extensionElements>
+        <camunda:executionListener event="take">
+          <camunda:script scriptFormat="javascript">var x= JSON.parse(requestData);
+x.data.processData.HiddenFieldForBossRevissionM=true;
+execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${requestData.prop('data').prop('processData').prop('resultM').value() == "revise"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0dybncn" name="بازنگری" sourceRef="Gateway_13q9cod" targetRef="Activity_0fz8tmq">
+      <bpmn:extensionElements>
+        <camunda:executionListener event="take">
+          <camunda:script scriptFormat="javascript">var x= JSON.parse(requestData);
+x.data.processData.HiddenFieldForBossRevissionP=true;
+execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${requestData.prop('data').prop('processData').prop('resultP').value() == "revise"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_1jf00j4" sourceRef="Activity_0y3i7v4" targetRef="Gateway_07agfn8" />
@@ -282,11 +292,7 @@ execution.setVariable("checkProtection",true);</camunda:script>
     <bpmn:userTask id="Activity_1ewimjv" name="بررسی واحد مکانیک" camunda:formKey="embedded:/forms/formio.html?deployment=CheckFormM.json&#38;var=requestData" camunda:assignee="mechanic">
       <bpmn:extensionElements>
         <camunda:executionListener event="start">
-          <camunda:script scriptFormat="javascript">var x= JSON.parse(requestData);
-if (x.data.processData.revisionTextM.hidden == true){
-x.data.processData.revisionTextM.hidden =true;
-}
-execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
+          <camunda:script scriptFormat="javascript"></camunda:script>
         </camunda:executionListener>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1lpup9q</bpmn:incoming>
