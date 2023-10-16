@@ -96,7 +96,17 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${checkProtection}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_1lpup9q" sourceRef="Gateway_1omlnyz" targetRef="Activity_1ewimjv">
-      <bpmn:extensionElements />
+      <bpmn:extensionElements>
+        <camunda:executionListener event="take">
+          <camunda:script scriptFormat="javascript">var x= JSON.parse(requestData);
+x.data.processData.revisionTextM = {
+        key: "revisionTextM",
+        type: "textarea",
+        hidden: true
+    };
+execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${checkMechanic}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_1r1813y" sourceRef="Gateway_1omlnyz" targetRef="Activity_1rje9nz">
@@ -208,6 +218,7 @@ execution.setVariable("checkProtection",true);</camunda:script>
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${requestData.prop('data').prop('processData').prop('resultW').value() == "revise"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0iucckv" name="بازنگری" sourceRef="Gateway_1gnlbfz" targetRef="Activity_1ewimjv">
+      <bpmn:extensionElements />
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${requestData.prop('data').prop('processData').prop('resultM').value() == "revise"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0dybncn" name="بازنگری" sourceRef="Gateway_13q9cod" targetRef="Activity_0fz8tmq">
@@ -215,7 +226,7 @@ execution.setVariable("checkProtection",true);</camunda:script>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_1jf00j4" sourceRef="Activity_0y3i7v4" targetRef="Gateway_07agfn8" />
     <bpmn:sequenceFlow id="Flow_0tvdhhn" sourceRef="Activity_0rzrezb" targetRef="Gateway_1gnlbfz" />
-    <bpmn:userTask id="Activity_0rzrezb" name="بررسی رئیس&#10;مکانیک" camunda:formKey="embedded:/forms/formio.html?deployment=BossFormM.json&#38;var=requestData" camunda:assignee="boss">
+    <bpmn:userTask id="Activity_0rzrezb" name="بررسی رئیس&#10;مکانیک" camunda:formKey="embedded:/forms/formio.html?deployment=BossFormM.json&#38;var=requestData" camunda:assignee="${starter}">
       <bpmn:incoming>Flow_1oce1r7</bpmn:incoming>
       <bpmn:outgoing>Flow_0tvdhhn</bpmn:outgoing>
     </bpmn:userTask>
@@ -269,6 +280,15 @@ execution.setVariable("checkProtection",true);</camunda:script>
       <bpmn:outgoing>Flow_0rxfpj8</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:userTask id="Activity_1ewimjv" name="بررسی واحد مکانیک" camunda:formKey="embedded:/forms/formio.html?deployment=CheckFormM.json&#38;var=requestData" camunda:assignee="mechanic">
+      <bpmn:extensionElements>
+        <camunda:executionListener event="start">
+          <camunda:script scriptFormat="javascript">var x= JSON.parse(requestData);
+if (x.data.processData.revisionTextM.hidden == true){
+x.data.processData.revisionTextM.hidden =true;
+}
+execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_1lpup9q</bpmn:incoming>
       <bpmn:incoming>Flow_0w9h8sh</bpmn:incoming>
       <bpmn:incoming>Flow_0iucckv</bpmn:incoming>
