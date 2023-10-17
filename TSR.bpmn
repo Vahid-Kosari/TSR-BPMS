@@ -6,76 +6,36 @@
   <bpmn:process id="tsrProcess" name="فرآیند TSR" isExecutable="true">
     <bpmn:laneSet id="LaneSet_1sglyzl">
       <bpmn:lane id="Lane_1ja24ae" name="بازرسی">
-        <bpmn:flowNodeRef>Gateway_1jgt7nk</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Gateway_1omlnyz</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Event_1xray2b</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_1mqde4m</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Gateway_1kkatu0</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Gateway_0bhdbiz</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Event_1jliweb</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_02zqk1w</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_1jmjhf1</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_0sjop7j</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_11sikyb</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Gateway_152u3m1</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_0ovajqr</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_0wfxikh</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_1ewimjv</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_1rje9nz</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Gateway_0i1kuth</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_1gwcctk</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Gateway_1hfxdl2</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_1kmhgnj</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Gateway_1yiojcj</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_0a4k6rm</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_0fz8tmq</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_0y3i7v4</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Gateway_07agfn8</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_0rzrezb</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_07agfn8</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_0y3i7v4</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_0fz8tmq</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_0a4k6rm</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_1yiojcj</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_1kmhgnj</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_1hfxdl2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_1gwcctk</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_0i1kuth</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_1rje9nz</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_1ewimjv</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_0wfxikh</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_0ovajqr</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_152u3m1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_11sikyb</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_0sjop7j</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_1jmjhf1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_02zqk1w</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_1jliweb</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_0bhdbiz</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_1kkatu0</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_1mqde4m</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_1omlnyz</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_1jgt7nk</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_13q9cod</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_1gnlbfz</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_1g0oh2b</bpmn:flowNodeRef>
-        <bpmn:childLaneSet id="LaneSet_0v48u4h">
-          <bpmn:lane id="Lane_1u4ovzx" name="مکانیک">
-            <bpmn:flowNodeRef>Gateway_1omlnyz</bpmn:flowNodeRef>
-            <bpmn:flowNodeRef>Gateway_0bhdbiz</bpmn:flowNodeRef>
-            <bpmn:flowNodeRef>Event_1jliweb</bpmn:flowNodeRef>
-            <bpmn:flowNodeRef>Activity_0sjop7j</bpmn:flowNodeRef>
-            <bpmn:flowNodeRef>Activity_11sikyb</bpmn:flowNodeRef>
-            <bpmn:flowNodeRef>Activity_1ewimjv</bpmn:flowNodeRef>
-            <bpmn:flowNodeRef>Gateway_1hfxdl2</bpmn:flowNodeRef>
-          </bpmn:lane>
-          <bpmn:lane id="Lane_0zyb442" name="حفاظت">
-            <bpmn:flowNodeRef>Gateway_1kkatu0</bpmn:flowNodeRef>
-            <bpmn:flowNodeRef>Activity_02zqk1w</bpmn:flowNodeRef>
-            <bpmn:flowNodeRef>Activity_1jmjhf1</bpmn:flowNodeRef>
-            <bpmn:flowNodeRef>Gateway_1yiojcj</bpmn:flowNodeRef>
-            <bpmn:flowNodeRef>Activity_0fz8tmq</bpmn:flowNodeRef>
-          </bpmn:lane>
-          <bpmn:lane id="Lane_18g6du9" name="رئیس">
-            <bpmn:flowNodeRef>Activity_0a4k6rm</bpmn:flowNodeRef>
-            <bpmn:flowNodeRef>Activity_0y3i7v4</bpmn:flowNodeRef>
-            <bpmn:flowNodeRef>Gateway_07agfn8</bpmn:flowNodeRef>
-            <bpmn:flowNodeRef>Activity_0rzrezb</bpmn:flowNodeRef>
-            <bpmn:flowNodeRef>Gateway_13q9cod</bpmn:flowNodeRef>
-            <bpmn:flowNodeRef>Gateway_1gnlbfz</bpmn:flowNodeRef>
-          </bpmn:lane>
-          <bpmn:lane id="Lane_0xmoyqq" name="جوش">
-            <bpmn:flowNodeRef>Gateway_152u3m1</bpmn:flowNodeRef>
-            <bpmn:flowNodeRef>Activity_0ovajqr</bpmn:flowNodeRef>
-            <bpmn:flowNodeRef>Activity_0wfxikh</bpmn:flowNodeRef>
-            <bpmn:flowNodeRef>Activity_1rje9nz</bpmn:flowNodeRef>
-            <bpmn:flowNodeRef>Gateway_0i1kuth</bpmn:flowNodeRef>
-          </bpmn:lane>
-          <bpmn:lane id="Lane_0a6dbpw" name="مسئول اسناد">
-            <bpmn:flowNodeRef>Gateway_1jgt7nk</bpmn:flowNodeRef>
-            <bpmn:flowNodeRef>Event_1xray2b</bpmn:flowNodeRef>
-            <bpmn:flowNodeRef>Activity_1mqde4m</bpmn:flowNodeRef>
-            <bpmn:flowNodeRef>Activity_1gwcctk</bpmn:flowNodeRef>
-            <bpmn:flowNodeRef>Activity_1kmhgnj</bpmn:flowNodeRef>
-            <bpmn:flowNodeRef>Activity_1g0oh2b</bpmn:flowNodeRef>
-          </bpmn:lane>
-        </bpmn:childLaneSet>
+        <bpmn:childLaneSet id="LaneSet_0v48u4h" />
       </bpmn:lane>
       <bpmn:lane id="Lane_1h57wee" name="برنامه ریزی تعمیرات">
         <bpmn:flowNodeRef>Activity_0858heg</bpmn:flowNodeRef>
@@ -456,26 +416,6 @@ execution.setVariable("checkProtection",true);</camunda:script>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Lane_1ja24ae_di" bpmnElement="Lane_1ja24ae" isHorizontal="true">
         <dc:Bounds x="190" y="80" width="2970" height="1770" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Lane_0a6dbpw_di" bpmnElement="Lane_0a6dbpw" isHorizontal="true">
-        <dc:Bounds x="220" y="80" width="2940" height="600" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Lane_0xmoyqq_di" bpmnElement="Lane_0xmoyqq" isHorizontal="true">
-        <dc:Bounds x="220" y="680" width="2940" height="230" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Lane_18g6du9_di" bpmnElement="Lane_18g6du9" isHorizontal="true">
-        <dc:Bounds x="220" y="1400" width="2940" height="450" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Lane_0zyb442_di" bpmnElement="Lane_0zyb442" isHorizontal="true">
-        <dc:Bounds x="220" y="1130" width="2940" height="270" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Lane_1u4ovzx_di" bpmnElement="Lane_1u4ovzx" isHorizontal="true">
-        <dc:Bounds x="220" y="910" width="2940" height="220" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1xray2b_di" bpmnElement="Event_1xray2b">
