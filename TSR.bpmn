@@ -405,12 +405,12 @@ execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:sc
         <dc:Bounds x="160" y="80" width="3000" height="2030" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Lane_1ja24ae_di" bpmnElement="Lane_1ja24ae" isHorizontal="true">
-        <dc:Bounds x="190" y="860" width="2970" height="1250" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Lane_18egfit_di" bpmnElement="Lane_18egfit" isHorizontal="true">
         <dc:Bounds x="190" y="80" width="2970" height="780" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1ja24ae_di" bpmnElement="Lane_1ja24ae" isHorizontal="true">
+        <dc:Bounds x="190" y="860" width="2970" height="1250" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_126g90h_di" bpmnElement="Activity_0fz8tmq">
