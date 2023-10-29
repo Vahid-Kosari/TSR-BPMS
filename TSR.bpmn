@@ -18,8 +18,6 @@
         <bpmn:flowNodeRef>Activity_1jmjhf1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_02zqk1w</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_1kkatu0</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Gateway_1hfxdl2</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_1ewimjv</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_0fz8tmq</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_1yiojcj</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_07agfn8</bpmn:flowNodeRef>
@@ -29,6 +27,9 @@
         <bpmn:flowNodeRef>Activity_0a4k6rm</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_13q9cod</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_1omlnyz</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_1ewimjv</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_1hvgwu2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_1hfxdl2</bpmn:flowNodeRef>
         <bpmn:childLaneSet id="LaneSet_0v48u4h" />
       </bpmn:lane>
       <bpmn:lane id="Lane_18egfit" name="برنامه ریزی تعمیرات">
@@ -63,7 +64,7 @@
       <bpmn:extensionElements />
       <bpmn:incoming>Flow_1r1813y</bpmn:incoming>
       <bpmn:incoming>Flow_19cf7vh</bpmn:incoming>
-      <bpmn:incoming>Flow_1utx4yq</bpmn:incoming>
+      <bpmn:incoming>Flow_0an1ro5</bpmn:incoming>
       <bpmn:outgoing>Flow_0rxfpj8</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:userTask id="Activity_1g0oh2b" name="بررسی نواقص مدارک حفاظت" camunda:formKey="embedded:/forms/formio.html?deployment=CheckResultP.json&#38;var=requestData" camunda:assignee="${starter}">
@@ -140,7 +141,7 @@ execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:sc
     <bpmn:sequenceFlow id="Flow_1j9rd9a" name="تایید" sourceRef="Gateway_07agfn8" targetRef="Activity_0858heg">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${requestData.prop('data').prop('processData').prop('resultW').value() == "accept"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_1utx4yq" name="بازنگری" sourceRef="Gateway_07agfn8" targetRef="Activity_1rje9nz">
+    <bpmn:sequenceFlow id="Flow_1utx4yq" name="بازنگری" sourceRef="Gateway_07agfn8" targetRef="Activity_1ewimjv">
       <bpmn:extensionElements>
         <camunda:executionListener event="take">
           <camunda:script scriptFormat="javascript">var x= JSON.parse(requestData);
@@ -180,7 +181,8 @@ execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:sc
         <camunda:executionListener event="take">
           <camunda:script scriptFormat="javascript">var x= JSON.parse(requestData);
 x.data.processData.HiddenFieldForBossRevissionP=true;
-execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
+execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));
+</camunda:script>
         </camunda:executionListener>
       </bpmn:extensionElements>
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${requestData.prop('data').prop('processData').prop('resultP').value() == "revise"}</bpmn:conditionExpression>
@@ -261,19 +263,7 @@ execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:sc
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${requestData.prop('data').prop('processData').prop('resultM').value() == "revise"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_08ybu9r" sourceRef="Activity_1mqde4m" targetRef="Gateway_1omlnyz">
-      <bpmn:extensionElements>
-        <camunda:executionListener event="take">
-          <camunda:script scriptFormat="javascript">var x= JSON.parse(requestData);
-x.data.processData.requestUnit = 'olefin1';
-x.data.processData.date = '1402/07/10';
-x.data.processData.tsrNo = 1234;
-x.data.processData.suggestion = 'ندارد';
-x.data.processData.problemDescription = 'دارد';
-x.data.processData.completeDocM = 'yes';
-x.data.processData.needProcedureM = 'no';
-execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
-        </camunda:executionListener>
-      </bpmn:extensionElements>
+      <bpmn:extensionElements />
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_1apn68g" name="تایید" sourceRef="Gateway_13q9cod" targetRef="Activity_1d9mfnn">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${requestData.prop('data').prop('processData').prop('resultP').value() == "accept"}</bpmn:conditionExpression>
@@ -329,23 +319,7 @@ execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:sc
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="Flow_0cwd3i6" sourceRef="Activity_02zqk1w" targetRef="Activity_1jmjhf1" />
     <bpmn:sequenceFlow id="Flow_0l7xh8t" sourceRef="Activity_1jmjhf1" targetRef="Gateway_1kkatu0" />
-    <bpmn:exclusiveGateway id="Gateway_1hfxdl2" name="مدارک کامل است؟">
-      <bpmn:incoming>Flow_04kuq4v</bpmn:incoming>
-      <bpmn:outgoing>Flow_0eacik5</bpmn:outgoing>
-      <bpmn:outgoing>Flow_1oce1r7</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:userTask id="Activity_1ewimjv" name="بررسی واحد مکانیک" camunda:formKey="embedded:/forms/formio.html?deployment=CheckFormM.json&#38;var=requestData" camunda:assignee="mechanic">
-      <bpmn:extensionElements>
-        <camunda:executionListener event="start">
-          <camunda:script scriptFormat="javascript" />
-        </camunda:executionListener>
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_1lpup9q</bpmn:incoming>
-      <bpmn:incoming>Flow_0w9h8sh</bpmn:incoming>
-      <bpmn:incoming>Flow_0iucckv</bpmn:incoming>
-      <bpmn:outgoing>Flow_04kuq4v</bpmn:outgoing>
-    </bpmn:userTask>
-    <bpmn:sequenceFlow id="Flow_04kuq4v" sourceRef="Activity_1ewimjv" targetRef="Gateway_1hfxdl2" />
+    <bpmn:sequenceFlow id="Flow_04kuq4v" sourceRef="Activity_1ewimjv" targetRef="Activity_1hvgwu2" />
     <bpmn:sequenceFlow id="Flow_1lpup9q" sourceRef="Gateway_1omlnyz" targetRef="Activity_1ewimjv">
       <bpmn:extensionElements />
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${checkMechanic}</bpmn:conditionExpression>
@@ -399,7 +373,7 @@ execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:sc
       <bpmn:outgoing>Flow_1lpup9q</bpmn:outgoing>
       <bpmn:outgoing>Flow_1r1813y</bpmn:outgoing>
     </bpmn:inclusiveGateway>
-    <bpmn:userTask id="Activity_1mqde4m" name="ثبت در سیستم" camunda:formKey="embedded:/forms/formio.html?deployment=EmptyForm.json&#38;var=requestData" camunda:assignee="${starter}">
+    <bpmn:userTask id="Activity_1mqde4m" name="ثبت در سیستم" camunda:formKey="embedded:/forms/formio.html?deployment=RequestForm.json&#38;var=requestData" camunda:assignee="${starter}">
       <bpmn:extensionElements>
         <camunda:executionListener event="end">
           <camunda:script scriptFormat="javascript">execution.setVariable("checkWeld",true);
@@ -427,6 +401,32 @@ execution.setVariable("checkProtection",true);</camunda:script>
     <bpmn:sequenceFlow id="Flow_0be3pdc" name="خیر" sourceRef="Gateway_1ddtsxn" targetRef="Activity_09n04gs">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${requestData.prop('data').prop('processData').prop('resultM').value() == "revise"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0an1ro5" sourceRef="Activity_1ewimjv" targetRef="Activity_1rje9nz" />
+    <bpmn:sequenceFlow id="Flow_19hb443" sourceRef="Activity_1hvgwu2" targetRef="Gateway_1hfxdl2" />
+    <bpmn:userTask id="Activity_1ewimjv" name="بررسی واحد مکانیک" camunda:formKey="embedded:/forms/formio.html?deployment=CheckFormM.json&#38;var=requestData" camunda:assignee="mechanic">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_1lpup9q</bpmn:incoming>
+      <bpmn:incoming>Flow_0w9h8sh</bpmn:incoming>
+      <bpmn:incoming>Flow_0iucckv</bpmn:incoming>
+      <bpmn:incoming>Flow_1utx4yq</bpmn:incoming>
+      <bpmn:outgoing>Flow_04kuq4v</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0an1ro5</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:scriptTask id="Activity_1hvgwu2" scriptFormat="javascript">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_04kuq4v</bpmn:incoming>
+      <bpmn:outgoing>Flow_19hb443</bpmn:outgoing>
+      <bpmn:script>var x= JSON.parse(requestData);
+execution.setVariable("z", "مکانیک:" + x.data.prpcessData.textTempalte);
+x.data.prpcessData.disabledText += "\n" + z;
+execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));
+</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:exclusiveGateway id="Gateway_1hfxdl2" name="مدارک کامل است؟">
+      <bpmn:incoming>Flow_19hb443</bpmn:incoming>
+      <bpmn:outgoing>Flow_0eacik5</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1oce1r7</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0hbol3d">
@@ -527,16 +527,6 @@ execution.setVariable("checkProtection",true);</camunda:script>
           <dc:Bounds x="2791" y="1245" width="38" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_1hfxdl2_di" bpmnElement="Gateway_1hfxdl2" isMarkerVisible="true">
-        <dc:Bounds x="955" y="1055" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="946" y="1115" width="69" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0juxjqp_di" bpmnElement="Activity_1ewimjv">
-        <dc:Bounds x="790" y="1040" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_126g90h_di" bpmnElement="Activity_0fz8tmq">
         <dc:Bounds x="880" y="1170" width="100" height="80" />
         <bpmndi:BPMNLabel />
@@ -580,6 +570,19 @@ execution.setVariable("checkProtection",true);</camunda:script>
       <bpmndi:BPMNShape id="Gateway_1ddtsxn_di" bpmnElement="Gateway_1ddtsxn" isMarkerVisible="true">
         <dc:Bounds x="2095" y="535" width="50" height="50" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0juxjqp_di" bpmnElement="Activity_1ewimjv">
+        <dc:Bounds x="700" y="1040" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_09upx1x_di" bpmnElement="Activity_1hvgwu2">
+        <dc:Bounds x="830" y="1040" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1hfxdl2_di" bpmnElement="Gateway_1hfxdl2" isMarkerVisible="true">
+        <dc:Bounds x="955" y="1055" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="946" y="1115" width="69" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1oce1r7_di" bpmnElement="Flow_1oce1r7">
         <di:waypoint x="1005" y="1080" />
         <di:waypoint x="1270" y="1080" />
@@ -600,7 +603,7 @@ execution.setVariable("checkProtection",true);</camunda:script>
       <bpmndi:BPMNEdge id="Flow_1utx4yq_di" bpmnElement="Flow_1utx4yq">
         <di:waypoint x="1395" y="1860" />
         <di:waypoint x="750" y="1860" />
-        <di:waypoint x="750" y="990" />
+        <di:waypoint x="750" y="1120" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1294" y="1823" width="31" height="14" />
         </bpmndi:BPMNLabel>
@@ -657,7 +660,7 @@ execution.setVariable("checkProtection",true);</camunda:script>
         <di:waypoint x="930" y="640" />
         <di:waypoint x="640" y="640" />
         <di:waypoint x="640" y="1060" />
-        <di:waypoint x="790" y="1060" />
+        <di:waypoint x="700" y="1060" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0ms2o3l_di" bpmnElement="Flow_0ms2o3l">
         <di:waypoint x="880" y="925" />
@@ -683,10 +686,10 @@ execution.setVariable("checkProtection",true);</camunda:script>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0iucckv_di" bpmnElement="Flow_0iucckv">
         <di:waypoint x="1245" y="1680" />
-        <di:waypoint x="840" y="1680" />
-        <di:waypoint x="840" y="1120" />
+        <di:waypoint x="750" y="1680" />
+        <di:waypoint x="750" y="1120" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1144" y="1643" width="31" height="14" />
+          <dc:Bounds x="1125" y="1643" width="31" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_08ybu9r_di" bpmnElement="Flow_08ybu9r">
@@ -812,12 +815,12 @@ execution.setVariable("checkProtection",true);</camunda:script>
         <di:waypoint x="2785" y="1210" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_04kuq4v_di" bpmnElement="Flow_04kuq4v">
-        <di:waypoint x="890" y="1080" />
-        <di:waypoint x="955" y="1080" />
+        <di:waypoint x="800" y="1080" />
+        <di:waypoint x="830" y="1080" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1lpup9q_di" bpmnElement="Flow_1lpup9q">
         <di:waypoint x="525" y="1080" />
-        <di:waypoint x="790" y="1080" />
+        <di:waypoint x="700" y="1080" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0hy16nn_di" bpmnElement="Flow_0hy16nn">
         <di:waypoint x="980" y="1210" />
@@ -855,6 +858,14 @@ execution.setVariable("checkProtection",true);</camunda:script>
         <bpmndi:BPMNLabel>
           <dc:Bounds x="2127" y="500" width="16" height="14" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0an1ro5_di" bpmnElement="Flow_0an1ro5">
+        <di:waypoint x="750" y="1040" />
+        <di:waypoint x="750" y="990" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_19hb443_di" bpmnElement="Flow_19hb443">
+        <di:waypoint x="930" y="1080" />
+        <di:waypoint x="955" y="1080" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
