@@ -453,20 +453,26 @@ var query = task
   .userIdIn(task.assignee);
 var users = [];
 users = query.list();
+docDescriptionM = x.data.processData.docDescriptionM;
+completeDocM = x.data.processData.completeDocM;
 
 task.execution.setVariable(
   "guFullName",
   users.get(0).getFirstName() + " " + users.get(0).getLastName()
 );
-
-if (disabledText != null) {
+if (completeDocM == "yes") {
   if (textTemplate != "") {
-    disabledText = disabledText + "\n" + guFullName + ": " + textTemplate;
+    disabledText = disabledText + "&lt;br&gt;" + guFullName + ": " + textTemplate;
   } else {
-    disabledText = guFullName + " : بدون کامنت";
+    disabledText = disabledText + "&lt;br&gt;" + guFullName + ": " + "(بدون کامنت)";
   }
 } else {
-  disabledText = guFullName + " : " + textTemplate;
+  if (disabledText != "") {
+    disabledText =
+      disabledText + "&lt;br&gt;" + guFullName + "(شرح نقص): " + docDescriptionM;
+  } else {
+    disabledText = guFullName + "(شرح نقص): " + docDescriptionM;
+  }
 }
 
 x.data.processData.disabledText = disabledText;
