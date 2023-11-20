@@ -52,6 +52,7 @@
       </bpmn:lane>
     </bpmn:laneSet>
     <bpmn:userTask id="Activity_1kmhgnj" name="بررسی نواقص مدارک مکانیک" camunda:formKey="embedded:/forms/formio.html?deployment=CheckResultM.json&#38;var=requestData" camunda:assignee="${starter}">
+      <bpmn:extensionElements />
       <bpmn:incoming>Flow_0eacik5</bpmn:incoming>
       <bpmn:outgoing>Flow_0w9h8sh</bpmn:outgoing>
     </bpmn:userTask>
@@ -307,7 +308,7 @@ execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:sc
       <bpmn:extensionElements>
         <camunda:taskListener event="complete">
           <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
-var disabledText = x.data.processData.disabledText;
+var disabledTextM = x.data.processData.disabledTextM;
 var textTemplate = x.data.processData.textTemplate;
 var query = task
   .getProcessEngineServices()
@@ -322,12 +323,12 @@ task.execution.setVariable(
   users.get(0).getFirstName() + " " + users.get(0).getLastName()
 );
 if (textTemplate != "") {
-  disabledText = disabledText + "&lt;br&gt;" + guFullName + ": " + textTemplate;
+  disabledTextM = disabledTextM + "&lt;br&gt;" + guFullName + ": " + textTemplate;
 } else {
-  disabledText = disabledText + "&lt;br&gt;" + guFullName + ": " + "(بدون کامنت)";
+  disabledTextM = disabledTextM + "&lt;br&gt;" + guFullName + ": " + "(بدون کامنت)";
 }
 
-x.data.processData.disabledText = disabledText;
+x.data.processData.disabledTextM = disabledTextM;
 x.data.processData.textTemplate = "";
 task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
         </camunda:taskListener>
@@ -364,7 +365,7 @@ task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camun
 x.data.processData.completeDocM = null;
 x.data.processData.docDescriptionM = "";
 x.data.processData.textTemplate = "";
-x.data.processData.disabledText = "";
+x.data.processData.disabledTextM = "";
 execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
         </camunda:executionListener>
       </bpmn:extensionElements>
@@ -469,11 +470,11 @@ execution.setVariable("checkProtection",true);</camunda:script>
     <bpmn:sequenceFlow id="Flow_19hm971" name="خیر" sourceRef="Gateway_00ip82e" targetRef="Activity_1d9mfnn">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${requestData.prop('data').prop('processData').prop('resultP').value() == "revise"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:userTask id="Activity_1ewimjv" name="بررسی واحد مکانیک" camunda:formKey="embedded:/forms/formio.html?deployment=CheckFormM.json&#38;var=requestData" camunda:assignee="mechanic">
+    <bpmn:userTask id="Activity_1ewimjv" name="بررسی واحد مکانیک" camunda:formKey="embedded:/forms/formio.html?deployment=CheckFormM.json&#38;var=requestData" camunda:assignee="${starter}">
       <bpmn:extensionElements>
         <camunda:taskListener event="complete">
           <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
-var disabledText = x.data.processData.disabledText;
+var disabledTextM = x.data.processData.disabledTextM;
 var textTemplate = x.data.processData.textTemplate;
 var query = task
   .getProcessEngineServices()
@@ -491,20 +492,20 @@ task.execution.setVariable(
 );
 if (completeDocM == "yes") {
   if (textTemplate != "") {
-    disabledText = disabledText + "&lt;br&gt;" + guFullName + ": " + textTemplate;
+    disabledTextM = disabledTextM + "&lt;br&gt;" + guFullName + ": " + textTemplate;
   } else {
-    disabledText = disabledText + "&lt;br&gt;" + guFullName + ": " + "(بدون کامنت)";
+    disabledTextM = disabledTextM + "&lt;br&gt;" + guFullName + ": " + "(بدون کامنت)";
   }
 } else {
-  if (disabledText != "") {
-    disabledText =
-      disabledText + "&lt;br&gt;" + guFullName + "(شرح نقص): " + docDescriptionM;
+  if (disabledTextM != "") {
+    disabledTextM =
+      disabledTextM + "&lt;br&gt;" + guFullName + "(شرح نقص): " + docDescriptionM;
   } else {
-    disabledText = guFullName + "(شرح نقص): " + docDescriptionM;
+    disabledTextM = guFullName + "(شرح نقص): " + docDescriptionM;
   }
 }
 
-x.data.processData.disabledText = disabledText;
+x.data.processData.disabledTextM = disabledTextM;
 x.data.processData.textTemplate = "";
 x.data.processData.checkMechanic = true;
 task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
@@ -559,7 +560,7 @@ task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camun
       <bpmn:extensionElements>
         <camunda:taskListener event="complete">
           <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
-var disabledText = x.data.processData.disabledText;
+var disabledTextM = x.data.processData.disabledTextM;
 var textTemplate = x.data.processData.textTemplate;
 var query = task
   .getProcessEngineServices()
@@ -577,20 +578,20 @@ task.execution.setVariable(
 );
 if (completeDocM == "yes") {
   if (textTemplate != "") {
-    disabledText = disabledText + "&lt;br&gt;" + guFullName + ": " + textTemplate;
+    disabledTextM = disabledTextM + "&lt;br&gt;" + guFullName + ": " + textTemplate;
   } else {
-    disabledText = disabledText + "&lt;br&gt;" + guFullName + ": " + "(بدون کامنت)";
+    disabledTextM = disabledTextM + "&lt;br&gt;" + guFullName + ": " + "(بدون کامنت)";
   }
 } else {
-  if (disabledText != "") {
-    disabledText =
-      disabledText + "&lt;br&gt;" + guFullName + "(شرح نقص): " + docDescriptionM;
+  if (disabledTextM != "") {
+    disabledTextM =
+      disabledTextM + "&lt;br&gt;" + guFullName + "(شرح نقص): " + docDescriptionM;
   } else {
-    disabledText = guFullName + "(شرح نقص): " + docDescriptionM;
+    disabledTextM = guFullName + "(شرح نقص): " + docDescriptionM;
   }
 }
 
-x.data.processData.disabledText = disabledText;
+x.data.processData.disabledTextM = disabledTextM;
 x.data.processData.textTemplate = "";
 x.data.processData.checkMechanic = true;
 task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
