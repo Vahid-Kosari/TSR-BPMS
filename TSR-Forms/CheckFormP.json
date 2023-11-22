@@ -386,7 +386,7 @@
                             "tags": [],
                             "conditional": {
                                 "show": "true",
-                                "when": "showFiles",
+                                "when": "needProcedureP",
                                 "eq": "true"
                             },
                             "properties": {
@@ -484,7 +484,7 @@
                                                     "tags": [],
                                                     "conditional": {
                                                         "show": "true",
-                                                        "when": "completeDocM",
+                                                        "when": "completeDocP",
                                                         "eq": "no"
                                                     },
                                                     "properties": {
@@ -684,7 +684,7 @@
                                                     "tags": [],
                                                     "conditional": {
                                                         "show": "true",
-                                                        "when": "completeDocM",
+                                                        "when": "completeDocP",
                                                         "eq": "yes"
                                                     },
                                                     "properties": {
@@ -709,7 +709,7 @@
                                     "tags": [],
                                     "conditional": {
                                         "show": "true",
-                                        "when": "completeDocM",
+                                        "when": "completeDocP",
                                         "eq": "yes"
                                     },
                                     "properties": {
@@ -777,7 +777,7 @@
                     "tags": [],
                     "conditional": {
                         "show": "true",
-                        "when": "completeDocM",
+                        "when": "completeDocP",
                         "eq": "yes"
                     },
                     "properties": {

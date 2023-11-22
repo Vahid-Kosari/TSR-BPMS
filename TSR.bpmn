@@ -31,11 +31,10 @@
         <bpmn:flowNodeRef>Activity_0dikrtf</bpmn:flowNodeRef>
         <bpmn:childLaneSet id="LaneSet_0v48u4h" />
       </bpmn:lane>
-      <bpmn:lane id="Lane_18egfit" name="برنامه ریزی تعمیراتo">
+      <bpmn:lane id="Lane_18egfit" name="برنامه ریزی تعمیرات">
         <bpmn:flowNodeRef>Activity_1kmhgnj</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_1gwcctk</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_1g0oh2b</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_0rd1pmj</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_0858heg</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_09n04gs</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_1d9mfnn</bpmn:flowNodeRef>
@@ -46,9 +45,10 @@
         <bpmn:flowNodeRef>Gateway_1ddtsxn</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_1m32nac</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_00ip82e</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Gateway_04j9n87</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_1cvpj0j</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_07k7o54</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_0rd1pmj</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_04j9n87</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
     <bpmn:userTask id="Activity_1kmhgnj" name="بررسی نواقص مدارک مکانیک" camunda:formKey="embedded:/forms/formio.html?deployment=CheckResultM.json&#38;var=requestData" camunda:assignee="${starter}">
@@ -66,7 +66,52 @@
       <bpmn:outgoing>Flow_0ms2o3l</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:userTask id="Activity_1rje9nz" name="بررسی واحد جوش" camunda:formKey="embedded:/forms/formio.html?deployment=CheckFormW.json&#38;var=requestData" camunda:assignee="weld">
-      <bpmn:extensionElements />
+      <bpmn:extensionElements>
+        <camunda:taskListener event="complete">
+          <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
+var disabledTextW = x.data.processData.disabledTextW;
+var textTemplate = x.data.processData.textTemplate;
+var query = task
+  .getProcessEngineServices()
+  .getIdentityService()
+  .createUserQuery()
+  .userIdIn(task.assignee);
+var users = [];
+users = query.list();
+docDescriptionW = x.data.processData.docDescriptionW;
+completeDocW = x.data.processData.completeDocW;
+
+task.execution.setVariable(
+  "guFullName",
+  users.get(0).getFirstName() + " " + users.get(0).getLastName()
+);
+if (completeDocW == "yes") {
+  if (textTemplate != "") {
+    disabledTextW = disabledTextW + "&lt;br&gt;" + guFullName + ": " + textTemplate;
+  } else {
+    disabledTextW = disabledTextW + "&lt;br&gt;" + guFullName + ": " + "(بدون کامنت)";
+  }
+} else {
+  if (disabledTextW != "") {
+    disabledTextW =
+      disabledTextW + "&lt;br&gt;" + guFullName + "(شرح نقص): " + docDescriptionW;
+  } else {
+    disabledTextW = guFullName + "(شرح نقص): " + docDescriptionW;
+  }
+}
+
+x.data.processData.disabledTextW = disabledTextW;
+x.data.processData.textTemplate = "";
+x.data.processData.checkWeld = true;
+task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
+        </camunda:taskListener>
+        <camunda:taskListener event="create">
+          <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
+x.data.processData.textTemplate = "";
+x.data.processData.docDescriptionW = "";
+task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
+        </camunda:taskListener>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_1r1813y</bpmn:incoming>
       <bpmn:incoming>Flow_19cf7vh</bpmn:incoming>
       <bpmn:incoming>Flow_1utx4yq</bpmn:incoming>
@@ -82,6 +127,39 @@
       <bpmn:outgoing>Flow_0ers6ya</bpmn:outgoing>
     </bpmn:manualTask>
     <bpmn:userTask id="Activity_0ovajqr" name="بررسی واحد جوش" camunda:formKey="embedded:/forms/formio.html?deployment=ConfirmWorkW.json&#38;var=requestData" camunda:assignee="${starter}">
+      <bpmn:extensionElements>
+        <camunda:taskListener event="create">
+          <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
+x.data.processData.textTemplate = "";
+task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
+        </camunda:taskListener>
+        <camunda:taskListener event="complete">
+          <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
+var disabledTextW = x.data.processData.disabledTextW;
+var textTemplate = x.data.processData.textTemplate;
+var query = task
+  .getProcessEngineServices()
+  .getIdentityService()
+  .createUserQuery()
+  .userIdIn(task.assignee);
+var users = [];
+users = query.list();
+
+task.execution.setVariable(
+  "guFullName",
+  users.get(0).getFirstName() + " " + users.get(0).getLastName()
+);
+if (textTemplate != "") {
+  disabledTextW = disabledTextW + "&lt;br&gt;" + guFullName + ": " + textTemplate;
+} else {
+  disabledTextW = disabledTextW + "&lt;br&gt;" + guFullName + ": " + "(بدون کامنت)";
+}
+
+x.data.processData.disabledTextW = disabledTextW;
+x.data.processData.textTemplate = "";
+task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
+        </camunda:taskListener>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_0ers6ya</bpmn:incoming>
       <bpmn:outgoing>Flow_1nlb7bz</bpmn:outgoing>
     </bpmn:userTask>
@@ -90,11 +168,6 @@
       <bpmn:outgoing>Flow_13ekqgr</bpmn:outgoing>
       <bpmn:outgoing>Flow_0j0t6f5</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:userTask id="Activity_0rd1pmj" name="دریافت تاییدیه اتمام کار" camunda:formKey="embedded:/forms/formio.html?deployment=ConfirmWorkW.json&#38;var=requestData" camunda:assignee="${starter}">
-      <bpmn:incoming>Flow_1391zlx</bpmn:incoming>
-      <bpmn:incoming>Flow_13ekqgr</bpmn:incoming>
-      <bpmn:outgoing>Flow_1716dnp</bpmn:outgoing>
-    </bpmn:userTask>
     <bpmn:manualTask id="Activity_0858heg" name="انجام تعمیرات جوش">
       <bpmn:incoming>Flow_0vxgd68</bpmn:incoming>
       <bpmn:incoming>Flow_0ieibw2</bpmn:incoming>
@@ -127,7 +200,40 @@
       <bpmn:incoming>Flow_14abbbe</bpmn:incoming>
       <bpmn:outgoing>Flow_1naajql</bpmn:outgoing>
     </bpmn:manualTask>
-    <bpmn:userTask id="Activity_0j7gp4i" name="دریافت تاییدیه اتمام کار" camunda:formKey="embedded:/forms/formio.html?deployment=ConfirmWorkP.json&#38;var=requestData" camunda:assignee="${starter}">
+    <bpmn:userTask id="Activity_0j7gp4i" name="دریافت تاییدیه اتمام کار حفاظت" camunda:formKey="embedded:/forms/formio.html?deployment=ConfirmWorkP.json&#38;var=requestData" camunda:assignee="${starter}">
+      <bpmn:extensionElements>
+        <camunda:taskListener event="create">
+          <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
+x.data.processData.textTemplate = "";
+task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
+        </camunda:taskListener>
+        <camunda:taskListener event="complete">
+          <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
+var disabledTextP = x.data.processData.disabledTextP;
+var textTemplate = x.data.processData.textTemplate;
+var query = task
+  .getProcessEngineServices()
+  .getIdentityService()
+  .createUserQuery()
+  .userIdIn(task.assignee);
+var users = [];
+users = query.list();
+
+task.execution.setVariable(
+  "guFullName",
+  users.get(0).getFirstName() + " " + users.get(0).getLastName()
+);
+if (textTemplate != "") {
+  disabledTextP = disabledTextP + "&lt;br&gt;" + guFullName + ": " + textTemplate;
+} else {
+  disabledTextP = disabledTextP + "&lt;br&gt;" + guFullName + ": " + "(بدون کامنت)";
+}
+
+x.data.processData.disabledTextP = disabledTextP;
+x.data.processData.textTemplate = "";
+task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
+        </camunda:taskListener>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_1naajql</bpmn:incoming>
       <bpmn:incoming>Flow_1m7od1d</bpmn:incoming>
       <bpmn:outgoing>Flow_0py1jax</bpmn:outgoing>
@@ -170,7 +276,16 @@ execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:sc
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${requestData.prop('data').prop('processData').prop('completeDocW').value() == "yes"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0ttopms" sourceRef="Gateway_1omlnyz" targetRef="Activity_0fz8tmq">
-      <bpmn:extensionElements />
+      <bpmn:extensionElements>
+        <camunda:executionListener event="take">
+          <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
+x.data.processData.completeDocM = null;
+x.data.processData.docDescriptionM = "";
+x.data.processData.textTemplate = "";
+x.data.processData.disabledTextP = "";
+execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${checkProtection}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_174u93m" sourceRef="Activity_1g0oh2b" targetRef="Activity_0fz8tmq">
@@ -255,7 +370,16 @@ execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:sc
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0rxfpj8" sourceRef="Activity_1rje9nz" targetRef="Gateway_0i1kuth" />
     <bpmn:sequenceFlow id="Flow_1r1813y" sourceRef="Gateway_1omlnyz" targetRef="Activity_1rje9nz">
-      <bpmn:extensionElements />
+      <bpmn:extensionElements>
+        <camunda:executionListener event="take">
+          <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
+x.data.processData.completeDocM = null;
+x.data.processData.docDescriptionM = "";
+x.data.processData.textTemplate = "";
+x.data.processData.disabledTextW = "";
+execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${checkWeld}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0iucckv" name="بازنگری" sourceRef="Gateway_1gnlbfz" targetRef="Activity_1ewimjv">
@@ -304,7 +428,7 @@ execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:sc
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_1m5ajgv" sourceRef="Activity_09n04gs" targetRef="Activity_03ljs1z" />
     <bpmn:sequenceFlow id="Flow_1naajql" sourceRef="Activity_1d9mfnn" targetRef="Activity_0j7gp4i" />
-    <bpmn:userTask id="Activity_03ljs1z" name="دریافت تاییدیه اتمام کار" camunda:formKey="embedded:/forms/formio.html?deployment=ConfirmWorkM.json&#38;var=requestData" camunda:assignee="${starter}">
+    <bpmn:userTask id="Activity_03ljs1z" name="دریافت تاییدیه اتمام کار مکانیک" camunda:formKey="embedded:/forms/formio.html?deployment=ConfirmWorkM.json&#38;var=requestData" camunda:assignee="${starter}">
       <bpmn:extensionElements>
         <camunda:taskListener event="complete">
           <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
@@ -343,6 +467,39 @@ task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camun
       <bpmn:outgoing>Flow_1pibv0x</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:userTask id="Activity_1jmjhf1" name="بررسی واحد حفاظت" camunda:formKey="embedded:/forms/formio.html?deployment=ConfirmWorkP.json&#38;var=requestData" camunda:assignee="${starter}">
+      <bpmn:extensionElements>
+        <camunda:taskListener event="complete">
+          <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
+var disabledTextP = x.data.processData.disabledTextP;
+var textTemplate = x.data.processData.textTemplate;
+var query = task
+  .getProcessEngineServices()
+  .getIdentityService()
+  .createUserQuery()
+  .userIdIn(task.assignee);
+var users = [];
+users = query.list();
+
+task.execution.setVariable(
+  "guFullName",
+  users.get(0).getFirstName() + " " + users.get(0).getLastName()
+);
+if (textTemplate != "") {
+  disabledTextP = disabledTextP + "&lt;br&gt;" + guFullName + ": " + textTemplate;
+} else {
+  disabledTextP = disabledTextP + "&lt;br&gt;" + guFullName + ": " + "(بدون کامنت)";
+}
+
+x.data.processData.disabledTextP = disabledTextP;
+x.data.processData.textTemplate = "";
+task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
+        </camunda:taskListener>
+        <camunda:taskListener event="create">
+          <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
+x.data.processData.textTemplate = "";
+task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
+        </camunda:taskListener>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_0cwd3i6</bpmn:incoming>
       <bpmn:outgoing>Flow_0l7xh8t</bpmn:outgoing>
     </bpmn:userTask>
@@ -372,7 +529,52 @@ execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:sc
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${checkMechanic}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:userTask id="Activity_0fz8tmq" name="بررسی واحد حفاظت" camunda:formKey="embedded:/forms/formio.html?deployment=CheckFormP.json&#38;var=requestData" camunda:assignee="protection">
-      <bpmn:extensionElements />
+      <bpmn:extensionElements>
+        <camunda:taskListener event="create">
+          <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
+x.data.processData.textTemplate = "";
+x.data.processData.docDescriptionP = "";
+task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
+        </camunda:taskListener>
+        <camunda:taskListener event="complete">
+          <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
+var disabledTextP = x.data.processData.disabledTextP;
+var textTemplate = x.data.processData.textTemplate;
+var query = task
+  .getProcessEngineServices()
+  .getIdentityService()
+  .createUserQuery()
+  .userIdIn(task.assignee);
+var users = [];
+users = query.list();
+docDescriptionP = x.data.processData.docDescriptionP;
+completeDocP = x.data.processData.completeDocP;
+
+task.execution.setVariable(
+  "guFullName",
+  users.get(0).getFirstName() + " " + users.get(0).getLastName()
+);
+if (completeDocP == "yes") {
+  if (textTemplate != "") {
+    disabledTextP = disabledTextP + "&lt;br&gt;" + guFullName + ": " + textTemplate;
+  } else {
+    disabledTextP = disabledTextP + "&lt;br&gt;" + guFullName + ": " + "(بدون کامنت)";
+  }
+} else {
+  if (disabledTextP != "") {
+    disabledTextP =
+      disabledTextP + "&lt;br&gt;" + guFullName + "(شرح نقص): " + docDescriptionP;
+  } else {
+    disabledTextP = guFullName + "(شرح نقص): " + docDescriptionP;
+  }
+}
+
+x.data.processData.disabledTextP = disabledTextP;
+x.data.processData.textTemplate = "";
+x.data.processData.checkProtection = true;
+task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
+        </camunda:taskListener>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_0ttopms</bpmn:incoming>
       <bpmn:incoming>Flow_174u93m</bpmn:incoming>
       <bpmn:incoming>Flow_0dybncn</bpmn:incoming>
@@ -390,6 +592,52 @@ execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:sc
       <bpmn:outgoing>Flow_1j9rd9a</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:userTask id="Activity_0y3i7v4" name="بررسی رئیس&#10;جوش" camunda:formKey="embedded:/forms/formio.html?deployment=BossFormW.json&#38;var=requestData" camunda:assignee="boss">
+      <bpmn:extensionElements>
+        <camunda:taskListener event="create">
+          <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
+x.data.processData.textTemplate = "";
+x.data.processData.docDescriptionW = "";
+task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
+        </camunda:taskListener>
+        <camunda:taskListener event="complete">
+          <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
+var disabledTextW = x.data.processData.disabledTextW;
+var textTemplate = x.data.processData.textTemplate;
+var query = task
+  .getProcessEngineServices()
+  .getIdentityService()
+  .createUserQuery()
+  .userIdIn(task.assignee);
+var users = [];
+users = query.list();
+docDescriptionW = x.data.processData.docDescriptionW;
+completeDocW = x.data.processData.completeDocW;
+
+task.execution.setVariable(
+  "guFullName",
+  users.get(0).getFirstName() + " " + users.get(0).getLastName()
+);
+if (completeDocW == "yes") {
+  if (textTemplate != "") {
+    disabledTextW = disabledTextW + "&lt;br&gt;" + guFullName + ": " + textTemplate;
+  } else {
+    disabledTextW = disabledTextW + "&lt;br&gt;" + guFullName + ": " + "(بدون کامنت)";
+  }
+} else {
+  if (disabledTextW != "") {
+    disabledTextW =
+      disabledTextW + "&lt;br&gt;" + guFullName + "(شرح نقص): " + docDescriptionW;
+  } else {
+    disabledTextW = guFullName + "(شرح نقص): " + docDescriptionW;
+  }
+}
+
+x.data.processData.disabledTextW = disabledTextW;
+x.data.processData.textTemplate = "";
+x.data.processData.checkWeld = true;
+task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
+        </camunda:taskListener>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_03vlw4z</bpmn:incoming>
       <bpmn:outgoing>Flow_1jf00j4</bpmn:outgoing>
     </bpmn:userTask>
@@ -399,6 +647,51 @@ execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:sc
       <bpmn:outgoing>Flow_0amzdvw</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:userTask id="Activity_0a4k6rm" name="بررسی رئیس&#10;حفاظت" camunda:formKey="embedded:/forms/formio.html?deployment=BossFormP.json&#38;var=requestData" camunda:assignee="boss">
+      <bpmn:extensionElements>
+        <camunda:taskListener event="create">
+          <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
+x.data.processData.textTemplate = "";
+task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
+        </camunda:taskListener>
+        <camunda:taskListener event="complete">
+          <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
+var disabledTextP = x.data.processData.disabledTextP;
+var textTemplate = x.data.processData.textTemplate;
+var query = task
+  .getProcessEngineServices()
+  .getIdentityService()
+  .createUserQuery()
+  .userIdIn(task.assignee);
+var users = [];
+users = query.list();
+docDescriptionP = x.data.processData.docDescriptionP;
+completeDocP = x.data.processData.completeDocP;
+
+task.execution.setVariable(
+  "guFullName",
+  users.get(0).getFirstName() + " " + users.get(0).getLastName()
+);
+if (completeDocP == "yes") {
+  if (textTemplate != "") {
+    disabledTextP = disabledTextP + "&lt;br&gt;" + guFullName + ": " + textTemplate;
+  } else {
+    disabledTextP = disabledTextP + "&lt;br&gt;" + guFullName + ": " + "(بدون کامنت)";
+  }
+} else {
+  if (disabledTextP != "") {
+    disabledTextP =
+      disabledTextP + "&lt;br&gt;" + guFullName + "(شرح نقص): " + docDescriptionP;
+  } else {
+    disabledTextP = guFullName + "(شرح نقص): " + docDescriptionP;
+  }
+}
+
+x.data.processData.disabledTextP = disabledTextP;
+x.data.processData.textTemplate = "";
+x.data.processData.checkProtection = true;
+task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
+        </camunda:taskListener>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_0c9kd76</bpmn:incoming>
       <bpmn:outgoing>Flow_1oryk7g</bpmn:outgoing>
     </bpmn:userTask>
@@ -528,11 +821,6 @@ task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camun
     <bpmn:sequenceFlow id="Flow_1luybnh" name="خیر" sourceRef="Gateway_07k7o54" targetRef="Event_1jliweb">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${requestData.prop('data').prop('processData').prop('mechanic').value() == false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:exclusiveGateway id="Gateway_04j9n87" name="دستور کار دارد">
-      <bpmn:incoming>Flow_1apn68g</bpmn:incoming>
-      <bpmn:outgoing>Flow_14abbbe</bpmn:outgoing>
-      <bpmn:outgoing>Flow_10jnaty</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="Flow_14abbbe" name="بله" sourceRef="Gateway_04j9n87" targetRef="Activity_1d9mfnn">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${protection}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
@@ -643,6 +931,49 @@ task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camun
       <bpmn:incoming>Flow_00nk6f9</bpmn:incoming>
       <bpmn:outgoing>Flow_18a3n6z</bpmn:outgoing>
     </bpmn:userTask>
+    <bpmn:userTask id="Activity_0rd1pmj" name="دریافت تاییدیه اتمام کار جوش" camunda:formKey="embedded:/forms/formio.html?deployment=ConfirmWorkW.json&#38;var=requestData" camunda:assignee="${starter}">
+      <bpmn:extensionElements>
+        <camunda:taskListener event="create">
+          <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
+x.data.processData.textTemplate = "";
+task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
+        </camunda:taskListener>
+        <camunda:taskListener event="complete">
+          <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
+var disabledTextW = x.data.processData.disabledTextW;
+var textTemplate = x.data.processData.textTemplate;
+var query = task
+  .getProcessEngineServices()
+  .getIdentityService()
+  .createUserQuery()
+  .userIdIn(task.assignee);
+var users = [];
+users = query.list();
+
+task.execution.setVariable(
+  "guFullName",
+  users.get(0).getFirstName() + " " + users.get(0).getLastName()
+);
+if (textTemplate != "") {
+  disabledTextW = disabledTextW + "&lt;br&gt;" + guFullName + ": " + textTemplate;
+} else {
+  disabledTextW = disabledTextW + "&lt;br&gt;" + guFullName + ": " + "(بدون کامنت)";
+}
+
+x.data.processData.disabledTextW = disabledTextW;
+x.data.processData.textTemplate = "";
+task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
+        </camunda:taskListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1391zlx</bpmn:incoming>
+      <bpmn:incoming>Flow_13ekqgr</bpmn:incoming>
+      <bpmn:outgoing>Flow_1716dnp</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_04j9n87" name="دستور کار دارد">
+      <bpmn:incoming>Flow_1apn68g</bpmn:incoming>
+      <bpmn:outgoing>Flow_14abbbe</bpmn:outgoing>
+      <bpmn:outgoing>Flow_10jnaty</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0hbol3d">
@@ -693,9 +1024,6 @@ task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camun
           <dc:Bounds x="2531" y="985" width="38" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0hi7mru_di" bpmnElement="Activity_0rd1pmj">
-        <dc:Bounds x="2260" y="760" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1d60778_di" bpmnElement="Activity_0858heg">
         <dc:Bounds x="2260" y="650" width="100" height="80" />
         <bpmndi:BPMNLabel />
@@ -722,9 +1050,11 @@ task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camun
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_06vy5mv" bpmnElement="Activity_0j7gp4i">
         <dc:Bounds x="2260" y="300" width="100" height="80" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_1fy0xv8" bpmnElement="Activity_03ljs1z">
         <dc:Bounds x="2260" y="520" width="100" height="80" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0cxdasz_di" bpmnElement="Activity_1jmjhf1">
         <dc:Bounds x="2360" y="1170" width="100" height="80" />
@@ -797,12 +1127,6 @@ task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camun
         <dc:Bounds x="790" y="1040" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_04j9n87_di" bpmnElement="Gateway_04j9n87" isMarkerVisible="true">
-        <dc:Bounds x="1665" y="205" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1661" y="265" width="58" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_1cvpj0j_di" bpmnElement="Gateway_1cvpj0j" isMarkerVisible="true">
         <dc:Bounds x="2045" y="665" width="50" height="50" />
       </bpmndi:BPMNShape>
@@ -819,6 +1143,16 @@ task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camun
       <bpmndi:BPMNShape id="BPMNShape_0rk7ha8" bpmnElement="Activity_0dikrtf">
         <dc:Bounds x="2360" y="1040" width="100" height="80" />
         <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0hi7mru_di" bpmnElement="Activity_0rd1pmj">
+        <dc:Bounds x="2260" y="760" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_04j9n87_di" bpmnElement="Gateway_04j9n87" isMarkerVisible="true">
+        <dc:Bounds x="1685" y="205" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1681" y="265" width="58" height="14" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1oce1r7_di" bpmnElement="Flow_1oce1r7">
         <di:waypoint x="1005" y="1080" />
@@ -938,7 +1272,7 @@ task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camun
         <di:waypoint x="1115" y="1490" />
         <di:waypoint x="1650" y="1490" />
         <di:waypoint x="1650" y="230" />
-        <di:waypoint x="1665" y="230" />
+        <di:waypoint x="1685" y="230" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1183" y="1453" width="15" height="14" />
         </bpmndi:BPMNLabel>
@@ -1136,20 +1470,20 @@ task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camun
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_14abbbe_di" bpmnElement="Flow_14abbbe">
-        <di:waypoint x="1715" y="230" />
+        <di:waypoint x="1735" y="230" />
         <di:waypoint x="2260" y="230" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1983" y="212" width="9" height="14" />
+          <dc:Bounds x="1993" y="212" width="9" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_10jnaty_di" bpmnElement="Flow_10jnaty">
-        <di:waypoint x="1690" y="205" />
-        <di:waypoint x="1690" y="180" />
+        <di:waypoint x="1710" y="205" />
+        <di:waypoint x="1710" y="180" />
         <di:waypoint x="3010" y="180" />
         <di:waypoint x="3010" y="1080" />
         <di:waypoint x="2958" y="1080" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2342" y="162" width="16" height="14" />
+          <dc:Bounds x="2352" y="162" width="16" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0ieibw2_di" bpmnElement="Flow_0ieibw2">

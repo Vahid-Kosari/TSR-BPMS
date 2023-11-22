@@ -957,7 +957,7 @@
                                     "lockKey": true,
                                     "$$hashKey": "object:6575",
                                     "hideLabel": false,
-                                    "calculateValue": "if (data.processData.needProcedureM == \"no\") {\nvalue = false;\n} else {\nvalue = true;\n}",
+                                    "calculateValue": "if (data.processData.needProcedureP == \"no\") {\nvalue = false;\n} else {\nvalue = true;\n}",
                                     "disabled": true,
                                     "isNew": false
                                 }
