@@ -31,6 +31,8 @@
         <bpmn:flowNodeRef>Gateway_00txb9g</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_05k4sx7</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_0zpxxuu</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_1jytfch</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_117uf4g</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_1ja24ae" name="بازرسی فنی">
         <bpmn:flowNodeRef>Gateway_0i1kuth</bpmn:flowNodeRef>
@@ -55,10 +57,10 @@
         <bpmn:flowNodeRef>Activity_1jmjhf1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_02zqk1w</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_0dikrtf</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Event_1jliweb</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_1kkatu0</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_0bhdbiz</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_152u3m1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_1c4i2aj</bpmn:flowNodeRef>
         <bpmn:childLaneSet id="LaneSet_0v48u4h" />
       </bpmn:lane>
       <bpmn:lane id="Lane_13uu65h" name="برنامه ریزی مهندسی">
@@ -66,11 +68,14 @@
         <bpmn:flowNodeRef>Activity_1gwcctk</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_1g0oh2b</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Event_1xray2b</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Gateway_1xq7ydu</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_1mqde4m</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_1nmk0tu</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_002z6fl</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_1mwmk3r</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_1dgy8j9</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_1jia0lo</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_1vc30f1" name="بهره برداری&#10;">
-        <bpmn:flowNodeRef>Gateway_1u2qtgv</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_1yfneli</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_0ba7t0d</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_1fl7jjp</bpmn:flowNodeRef>
@@ -749,16 +754,6 @@ task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camun
       <bpmn:incoming>Flow_00nk6f9</bpmn:incoming>
       <bpmn:outgoing>Flow_18a3n6z</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:endEvent id="Event_1jliweb">
-      <bpmn:incoming>Flow_0j0t6f5</bpmn:incoming>
-      <bpmn:incoming>Flow_0t2ivkc</bpmn:incoming>
-      <bpmn:incoming>Flow_1yv5vlm</bpmn:incoming>
-      <bpmn:incoming>Flow_0ghblwh</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:exclusiveGateway id="Gateway_1xq7ydu">
-      <bpmn:incoming>Flow_1vs5hhj</bpmn:incoming>
-      <bpmn:outgoing>Flow_0ghblwh</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
     <bpmn:manualTask id="Activity_09n04gs" name="انجام تعمیرات مکانیک">
       <bpmn:incoming>Flow_0fplv58</bpmn:incoming>
       <bpmn:outgoing>Flow_1m5ajgv</bpmn:outgoing>
@@ -1064,7 +1059,7 @@ x.data.processData.disabledTextInspection = "";
 task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
         </camunda:taskListener>
       </bpmn:extensionElements>
-      <bpmn:incoming>Flow_1ut9nu2</bpmn:incoming>
+      <bpmn:incoming>Flow_06hbe2u</bpmn:incoming>
       <bpmn:outgoing>Flow_1mvcxqk</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:exclusiveGateway id="Gateway_0n9ugr5">
@@ -1120,11 +1115,6 @@ task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camun
       <bpmn:incoming>Flow_1nmx2k8</bpmn:incoming>
       <bpmn:incoming>Flow_1f7z51u</bpmn:incoming>
       <bpmn:outgoing>Flow_067isr1</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:exclusiveGateway id="Gateway_1u2qtgv">
-      <bpmn:incoming>Flow_0inm2im</bpmn:incoming>
-      <bpmn:incoming>Flow_19b3ly4</bpmn:incoming>
-      <bpmn:outgoing>Flow_1vs5hhj</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:inclusiveGateway id="Gateway_1yfneli">
       <bpmn:incoming>Flow_0e8mnt4</bpmn:incoming>
@@ -1184,11 +1174,6 @@ execution.setVariable("procedureCompleted", 0);</camunda:script>
       <bpmn:incoming>Flow_1r1glm4</bpmn:incoming>
       <bpmn:outgoing>Flow_0ye2d1j</bpmn:outgoing>
       <bpmn:outgoing>Flow_1huzfus</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:exclusiveGateway id="Gateway_0zpxxuu">
-      <bpmn:incoming>Flow_0nl9is1</bpmn:incoming>
-      <bpmn:incoming>Flow_1huzfus</bpmn:incoming>
-      <bpmn:outgoing>Flow_06ezur2</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:exclusiveGateway id="Gateway_04fq1g1">
       <bpmn:incoming>Flow_1onjzc5</bpmn:incoming>
@@ -1418,7 +1403,7 @@ execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:sc
       <bpmn:extensionElements />
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_1qd13pr" sourceRef="Event_1v3lozg" targetRef="Gateway_07k7o54" />
-    <bpmn:sequenceFlow id="Flow_1ut9nu2" sourceRef="Event_1d9r9n1" targetRef="Activity_1x9m5im" />
+    <bpmn:sequenceFlow id="Flow_1ut9nu2" sourceRef="Event_1d9r9n1" targetRef="Activity_002z6fl" />
     <bpmn:sequenceFlow id="Flow_1nzpwb1" sourceRef="Event_1wgry1h" targetRef="Gateway_04j9n87" />
     <bpmn:sequenceFlow id="Flow_1bu0j4c" name="بازرسی" sourceRef="Gateway_1wu6ct4" targetRef="Activity_0wfxikh">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${requestData.prop('data').prop('processData').prop('result2').value() == "inspection"}</bpmn:conditionExpression>
@@ -1435,17 +1420,15 @@ execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:sc
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${requestData.prop('data').prop('processData').prop('result2').value() == "inspection"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_18a3n6z" sourceRef="Activity_0dikrtf" targetRef="Gateway_0bhdbiz" />
-    <bpmn:sequenceFlow id="Flow_0j0t6f5" name="بله" sourceRef="Gateway_152u3m1" targetRef="Event_1jliweb">
+    <bpmn:sequenceFlow id="Flow_0j0t6f5" name="بله" sourceRef="Gateway_152u3m1" targetRef="Gateway_1c4i2aj">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${requestData.prop('data').prop('processData').prop('result').value() == "accept"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_0t2ivkc" name="بله" sourceRef="Gateway_0bhdbiz" targetRef="Event_1jliweb">
+    <bpmn:sequenceFlow id="Flow_0t2ivkc" name="بله" sourceRef="Gateway_0bhdbiz" targetRef="Gateway_1c4i2aj">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${requestData.prop('data').prop('processData').prop('result').value() == "accept"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_1yv5vlm" name="بله" sourceRef="Gateway_1kkatu0" targetRef="Event_1jliweb">
+    <bpmn:sequenceFlow id="Flow_1yv5vlm" name="بله" sourceRef="Gateway_1kkatu0" targetRef="Gateway_1c4i2aj">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${requestData.prop('data').prop('processData').prop('result').value() == "accept"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_0ghblwh" sourceRef="Gateway_1xq7ydu" targetRef="Event_1jliweb" />
-    <bpmn:sequenceFlow id="Flow_1vs5hhj" sourceRef="Gateway_1u2qtgv" targetRef="Gateway_1xq7ydu" />
     <bpmn:sequenceFlow id="Flow_0fplv58" sourceRef="Gateway_15e1vwl" targetRef="Activity_09n04gs" />
     <bpmn:sequenceFlow id="Flow_1m5ajgv" sourceRef="Activity_09n04gs" targetRef="Activity_03ljs1z" />
     <bpmn:sequenceFlow id="Flow_1lz8ov6" sourceRef="Gateway_0n9ugr5" targetRef="Activity_1d9mfnn" />
@@ -1473,7 +1456,6 @@ execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:sc
     <bpmn:sequenceFlow id="Flow_10jnaty" name="خیر" sourceRef="Gateway_04j9n87" targetRef="Gateway_0punf00">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${requestData.prop('data').prop('processData').prop('protection').value() == false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_0inm2im" sourceRef="Gateway_0punf00" targetRef="Gateway_1u2qtgv" />
     <bpmn:sequenceFlow id="Flow_14abbbe" name="بله" sourceRef="Gateway_04j9n87" targetRef="Gateway_0n9ugr5">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${requestData.prop('data').prop('processData').prop('protection').value() == true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
@@ -1539,7 +1521,6 @@ execution.setVariable("protectionPM",false);</camunda:script>
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${requestData.prop('data').prop('processData').prop('result2').value() == "operation"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_067isr1" sourceRef="Gateway_0zu4qz6" targetRef="Activity_1aiw9oz" />
-    <bpmn:sequenceFlow id="Flow_19b3ly4" sourceRef="Gateway_1lp4j2g" targetRef="Gateway_1u2qtgv" />
     <bpmn:sequenceFlow id="Flow_0e8mnt4" sourceRef="Activity_1aiw9oz" targetRef="Gateway_1yfneli" />
     <bpmn:sequenceFlow id="Flow_03ezkse" sourceRef="Gateway_1yfneli" targetRef="Gateway_1fl7jjp">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${mechanicPM}</bpmn:conditionExpression>
@@ -1604,27 +1585,325 @@ execution.setVariable("protectionPM",false);</camunda:script>
     <bpmn:sequenceFlow id="Flow_1m3hp5d" sourceRef="Gateway_0k9lvl1" targetRef="Gateway_0cjv7gx">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${requestData.prop('data').prop('processData').prop('result').value() == "revise"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0dbe9fh" sourceRef="Activity_002z6fl" targetRef="Gateway_1nmk0tu" />
+    <bpmn:sequenceFlow id="Flow_12v5ill" sourceRef="Gateway_1c4i2aj" targetRef="Gateway_1jytfch" />
+    <bpmn:sequenceFlow id="Flow_19b3ly4" sourceRef="Gateway_1lp4j2g" targetRef="Gateway_1jytfch" />
+    <bpmn:sequenceFlow id="Flow_0inm2im" sourceRef="Gateway_0punf00" targetRef="Gateway_1jytfch" />
+    <bpmn:sequenceFlow id="Flow_06hbe2u" sourceRef="Gateway_1nmk0tu" targetRef="Activity_1x9m5im" />
+    <bpmn:sequenceFlow id="Flow_01ovbm6" sourceRef="Gateway_1dgy8j9" targetRef="Gateway_1nmk0tu" />
+    <bpmn:exclusiveGateway id="Gateway_0zpxxuu">
+      <bpmn:incoming>Flow_0nl9is1</bpmn:incoming>
+      <bpmn:incoming>Flow_1huzfus</bpmn:incoming>
+      <bpmn:outgoing>Flow_06ezur2</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0kpgjby" sourceRef="Gateway_1jytfch" targetRef="Activity_117uf4g" />
+    <bpmn:exclusiveGateway id="Gateway_1nmk0tu">
+      <bpmn:incoming>Flow_0dbe9fh</bpmn:incoming>
+      <bpmn:incoming>Flow_01ovbm6</bpmn:incoming>
+      <bpmn:outgoing>Flow_06hbe2u</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Activity_002z6fl" name="بررسی برنامه ریزی مهندسی و ابلاغ کار" camunda:formKey="embedded:/forms/formio.html?deployment=DesignateWorkPM.json&#38;var=requestData" camunda:assignee="${starter}">
+      <bpmn:extensionElements>
+        <camunda:taskListener event="complete">
+          <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
+
+// Transfering WorkFlowfiles to PM column
+var filesWFPM = x.data.processData.filesWFPM;
+var filesTemp = x.data.processData.newFilesWF;
+
+// Get the length of the existing "filesWFPM" object
+var filesWFPMLength = Object.keys(filesWFPM).length;
+
+// Loop through the filesTemp and add them to the "filesWFPM" object
+filesTemp.forEach(function(newFile, index) {
+  // Use the next available index for each new file
+  if (newFile &amp;&amp; Object.keys(newFile).length &gt; 0) {
+    var newIndex = filesWFPMLength + index;
+    filesWFPM[newIndex] = newFile;
+  }
+});
+
+x.data.processData.filesWFPM = filesWFPM;
+x.data.processData.newFilesWF = {};
+
+var disabledText = x.data.processData.disabledTextPM;
+var textTemplate = x.data.processData.textTemplateWF;
+var query = task
+  .getProcessEngineServices()
+  .getIdentityService()
+  .createUserQuery()
+  .userIdIn(task.assignee);
+var users = [];
+users = query.list();
+
+task.execution.setVariable(
+  "guFullName",
+  users.get(0).getFirstName() + " " + users.get(0).getLastName()
+);
+if (textTemplate != "") {
+  disabledText = disabledText + "&lt;br&gt;" + guFullName + ": " + textTemplate;
+} else {
+  disabledText = disabledText + "&lt;br&gt;" + guFullName + ": " + "(بدون کامنت)";
+}
+
+x.data.processData.disabledTextPM = disabledText;
+x.data.processData.textTemplateWF = "";
+task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
+        </camunda:taskListener>
+        <camunda:executionListener event="start">
+          <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
+var ww = JSON.parse(w);
+var mm = JSON.parse(m);
+var pp = JSON.parse(p);
+
+// Transfering comments
+x.data.processData.docDefectPM = 
+"گردش کار جوش &lt;br&gt;" + ww.data.processData.docDefectPMW + 
+"&lt;br&gt;گردش کار مکانیک &lt;br&gt;" + mm.data.processData.docDefectPMM + 
+"&lt;br&gt;گردش کار حفاظت &lt;br&gt;" + pp.data.processData.docDefectPMP;
+
+// Transfering comments
+x.data.processData.disabledTextW = ww.data.processData.disabledTextW;
+x.data.processData.disabledTextM = mm.data.processData.disabledTextM;
+x.data.processData.disabledTextP = pp.data.processData.disabledTextP;
+
+// Transfering dastoorFiles
+x.data.processData.dastoorFilesW = ww.data.processData.dastoorFilesW;
+x.data.processData.dastoorFilesM = mm.data.processData.dastoorFilesM;
+x.data.processData.dastoorFilesP = pp.data.processData.dastoorFilesP;
+
+execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));
+execution.setVariable("w", org.camunda.spin.Spin.JSON(ww));
+execution.setVariable("m", org.camunda.spin.Spin.JSON(mm));
+execution.setVariable("p", org.camunda.spin.Spin.JSON(pp));</camunda:script>
+        </camunda:executionListener>
+        <camunda:taskListener event="create">
+          <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
+x.data.processData.textTemplateWF = "";
+x.data.processData.disabledTextPM = "";
+x.data.processData.disabledTextInspection = "";
+task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
+        </camunda:taskListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1ut9nu2</bpmn:incoming>
+      <bpmn:outgoing>Flow_0dbe9fh</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_1jytfch">
+      <bpmn:incoming>Flow_0inm2im</bpmn:incoming>
+      <bpmn:incoming>Flow_12v5ill</bpmn:incoming>
+      <bpmn:incoming>Flow_19b3ly4</bpmn:incoming>
+      <bpmn:outgoing>Flow_0kpgjby</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_1c4i2aj">
+      <bpmn:incoming>Flow_0j0t6f5</bpmn:incoming>
+      <bpmn:incoming>Flow_0t2ivkc</bpmn:incoming>
+      <bpmn:incoming>Flow_1yv5vlm</bpmn:incoming>
+      <bpmn:outgoing>Flow_12v5ill</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Activity_1mwmk3r" name="بررسی برنامه ریزی مهندسی و اتمام کار" camunda:formKey="embedded:/forms/formio.html?deployment=DesignateWorkPM.json&#38;var=requestData" camunda:assignee="${starter}">
+      <bpmn:extensionElements>
+        <camunda:taskListener event="complete">
+          <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
+
+// Transfering WorkFlowfiles to PM column
+var filesWFPM = x.data.processData.filesWFPM;
+var filesTemp = x.data.processData.newFilesWF;
+
+// Get the length of the existing "filesWFPM" object
+var filesWFPMLength = Object.keys(filesWFPM).length;
+
+// Loop through the filesTemp and add them to the "filesWFPM" object
+filesTemp.forEach(function(newFile, index) {
+  // Use the next available index for each new file
+  if (newFile &amp;&amp; Object.keys(newFile).length &gt; 0) {
+    var newIndex = filesWFPMLength + index;
+    filesWFPM[newIndex] = newFile;
+  }
+});
+
+x.data.processData.filesWFPM = filesWFPM;
+x.data.processData.newFilesWF = {};
+
+var disabledText = x.data.processData.disabledTextPM;
+var textTemplate = x.data.processData.textTemplateWF;
+var query = task
+  .getProcessEngineServices()
+  .getIdentityService()
+  .createUserQuery()
+  .userIdIn(task.assignee);
+var users = [];
+users = query.list();
+
+task.execution.setVariable(
+  "guFullName",
+  users.get(0).getFirstName() + " " + users.get(0).getLastName()
+);
+if (textTemplate != "") {
+  disabledText = disabledText + "&lt;br&gt;" + guFullName + ": " + textTemplate;
+} else {
+  disabledText = disabledText + "&lt;br&gt;" + guFullName + ": " + "(بدون کامنت)";
+}
+
+x.data.processData.disabledTextPM = disabledText;
+x.data.processData.textTemplateWF = "";
+task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
+        </camunda:taskListener>
+        <camunda:executionListener event="start">
+          <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
+var ww = JSON.parse(w);
+var mm = JSON.parse(m);
+var pp = JSON.parse(p);
+
+// Transfering comments
+x.data.processData.docDefectPM = 
+"گردش کار جوش &lt;br&gt;" + ww.data.processData.docDefectPMW + 
+"&lt;br&gt;گردش کار مکانیک &lt;br&gt;" + mm.data.processData.docDefectPMM + 
+"&lt;br&gt;گردش کار حفاظت &lt;br&gt;" + pp.data.processData.docDefectPMP;
+
+// Transfering comments
+x.data.processData.disabledTextW = ww.data.processData.disabledTextW;
+x.data.processData.disabledTextM = mm.data.processData.disabledTextM;
+x.data.processData.disabledTextP = pp.data.processData.disabledTextP;
+
+// Transfering dastoorFiles
+x.data.processData.dastoorFilesW = ww.data.processData.dastoorFilesW;
+x.data.processData.dastoorFilesM = mm.data.processData.dastoorFilesM;
+x.data.processData.dastoorFilesP = pp.data.processData.dastoorFilesP;
+
+execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));
+execution.setVariable("w", org.camunda.spin.Spin.JSON(ww));
+execution.setVariable("m", org.camunda.spin.Spin.JSON(mm));
+execution.setVariable("p", org.camunda.spin.Spin.JSON(pp));</camunda:script>
+        </camunda:executionListener>
+        <camunda:taskListener event="create">
+          <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
+x.data.processData.textTemplateWF = "";
+x.data.processData.disabledTextPM = "";
+x.data.processData.disabledTextInspection = "";
+task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
+        </camunda:taskListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_05jyfbl</bpmn:incoming>
+      <bpmn:outgoing>Flow_00gk9hf</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Activity_117uf4g" name="بررسی برنامه ریزی تعمیرات و اتمام کار" camunda:formKey="embedded:/forms/formio.html?deployment=DesignateWorkPM.json&#38;var=requestData" camunda:assignee="${starter}">
+      <bpmn:extensionElements>
+        <camunda:taskListener event="complete">
+          <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
+
+// Transfering WorkFlowfiles to PM column
+var filesWFPM = x.data.processData.filesWFPM;
+var filesTemp = x.data.processData.newFilesWF;
+
+// Get the length of the existing "filesWFPM" object
+var filesWFPMLength = Object.keys(filesWFPM).length;
+
+// Loop through the filesTemp and add them to the "filesWFPM" object
+filesTemp.forEach(function(newFile, index) {
+  // Use the next available index for each new file
+  if (newFile &amp;&amp; Object.keys(newFile).length &gt; 0) {
+    var newIndex = filesWFPMLength + index;
+    filesWFPM[newIndex] = newFile;
+  }
+});
+
+x.data.processData.filesWFPM = filesWFPM;
+x.data.processData.newFilesWF = {};
+
+var disabledText = x.data.processData.disabledTextPM;
+var textTemplate = x.data.processData.textTemplateWF;
+var query = task
+  .getProcessEngineServices()
+  .getIdentityService()
+  .createUserQuery()
+  .userIdIn(task.assignee);
+var users = [];
+users = query.list();
+
+task.execution.setVariable(
+  "guFullName",
+  users.get(0).getFirstName() + " " + users.get(0).getLastName()
+);
+if (textTemplate != "") {
+  disabledText = disabledText + "&lt;br&gt;" + guFullName + ": " + textTemplate;
+} else {
+  disabledText = disabledText + "&lt;br&gt;" + guFullName + ": " + "(بدون کامنت)";
+}
+
+x.data.processData.disabledTextPM = disabledText;
+x.data.processData.textTemplateWF = "";
+task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
+        </camunda:taskListener>
+        <camunda:executionListener event="start">
+          <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
+var ww = JSON.parse(w);
+var mm = JSON.parse(m);
+var pp = JSON.parse(p);
+
+// Transfering comments
+x.data.processData.docDefectPM = 
+"گردش کار جوش &lt;br&gt;" + ww.data.processData.docDefectPMW + 
+"&lt;br&gt;گردش کار مکانیک &lt;br&gt;" + mm.data.processData.docDefectPMM + 
+"&lt;br&gt;گردش کار حفاظت &lt;br&gt;" + pp.data.processData.docDefectPMP;
+
+// Transfering comments
+x.data.processData.disabledTextW = ww.data.processData.disabledTextW;
+x.data.processData.disabledTextM = mm.data.processData.disabledTextM;
+x.data.processData.disabledTextP = pp.data.processData.disabledTextP;
+
+// Transfering dastoorFiles
+x.data.processData.dastoorFilesW = ww.data.processData.dastoorFilesW;
+x.data.processData.dastoorFilesM = mm.data.processData.dastoorFilesM;
+x.data.processData.dastoorFilesP = pp.data.processData.dastoorFilesP;
+
+execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));
+execution.setVariable("w", org.camunda.spin.Spin.JSON(ww));
+execution.setVariable("m", org.camunda.spin.Spin.JSON(mm));
+execution.setVariable("p", org.camunda.spin.Spin.JSON(pp));</camunda:script>
+        </camunda:executionListener>
+        <camunda:taskListener event="create">
+          <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
+x.data.processData.textTemplateWF = "";
+x.data.processData.disabledTextPM = "";
+x.data.processData.disabledTextInspection = "";
+task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
+        </camunda:taskListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0kpgjby</bpmn:incoming>
+      <bpmn:outgoing>Flow_05jyfbl</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_1dgy8j9">
+      <bpmn:incoming>Flow_00gk9hf</bpmn:incoming>
+      <bpmn:outgoing>Flow_0zyncqx</bpmn:outgoing>
+      <bpmn:outgoing>Flow_01ovbm6</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_05jyfbl" sourceRef="Activity_117uf4g" targetRef="Activity_1mwmk3r" />
+    <bpmn:sequenceFlow id="Flow_00gk9hf" sourceRef="Activity_1mwmk3r" targetRef="Gateway_1dgy8j9" />
+    <bpmn:sequenceFlow id="Flow_0zyncqx" sourceRef="Gateway_1dgy8j9" targetRef="Event_1jia0lo" />
+    <bpmn:endEvent id="Event_1jia0lo">
+      <bpmn:incoming>Flow_0zyncqx</bpmn:incoming>
+    </bpmn:endEvent>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0hbol3d">
       <bpmndi:BPMNShape id="Participant_0l84de2_di" bpmnElement="Participant_0l84de2" isHorizontal="true">
-        <dc:Bounds x="160" y="80" width="4430" height="3180" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Lane_18egfit_di" bpmnElement="Lane_18egfit" isHorizontal="true" bioc:stroke="#0d4372" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#0d4372">
-        <dc:Bounds x="190" y="660" width="4400" height="955" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Lane_1ja24ae_di" bpmnElement="Lane_1ja24ae" isHorizontal="true" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
-        <dc:Bounds x="190" y="2010" width="4400" height="1250" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Lane_13uu65h_di" bpmnElement="Lane_13uu65h" isHorizontal="true" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
-        <dc:Bounds x="190" y="1615" width="4400" height="395" />
+        <dc:Bounds x="160" y="80" width="4538" height="3180" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Lane_1vc30f1_di" bpmnElement="Lane_1vc30f1" isHorizontal="true" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
-        <dc:Bounds x="190" y="80" width="4400" height="580" />
+        <dc:Bounds x="190" y="80" width="4508" height="580" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_13uu65h_di" bpmnElement="Lane_13uu65h" isHorizontal="true" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
+        <dc:Bounds x="190" y="1615" width="4508" height="395" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1ja24ae_di" bpmnElement="Lane_1ja24ae" isHorizontal="true" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="190" y="2010" width="4508" height="1250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_18egfit_di" bpmnElement="Lane_18egfit" isHorizontal="true" bioc:stroke="#0d4372" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#0d4372">
+        <dc:Bounds x="190" y="660" width="4508" height="955" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_0i1kuth_di" bpmnElement="Gateway_0i1kuth" isMarkerVisible="true" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
@@ -1726,12 +2005,6 @@ execution.setVariable("protectionPM",false);</camunda:script>
         <dc:Bounds x="3800" y="2190" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1jliweb_di" bpmnElement="Event_1jliweb" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
-        <dc:Bounds x="4362" y="2212" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_1xq7ydu_di" bpmnElement="Gateway_1xq7ydu" isMarkerVisible="true">
-        <dc:Bounds x="4455" y="1785" width="50" height="50" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_173l9p5" bpmnElement="Activity_09n04gs" bioc:stroke="#0d4372" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#0d4372">
         <dc:Bounds x="2660" y="1230" width="100" height="80" />
         <bpmndi:BPMNLabel />
@@ -1760,7 +2033,7 @@ execution.setVariable("protectionPM",false);</camunda:script>
           <dc:Bounds x="3005" y="1043" width="50" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_0punf00_di" bpmnElement="Gateway_0punf00" isMarkerVisible="true">
+      <bpmndi:BPMNShape id="Gateway_0punf00_di" bpmnElement="Gateway_0punf00" isMarkerVisible="true" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
         <dc:Bounds x="2215" y="805" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_04j9n87_di" bpmnElement="Gateway_04j9n87" isMarkerVisible="true" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
@@ -1844,11 +2117,8 @@ execution.setVariable("protectionPM",false);</camunda:script>
           <dc:Bounds x="4211" y="2051" width="38" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_0zu4qz6_di" bpmnElement="Gateway_0zu4qz6" isMarkerVisible="true">
+      <bpmndi:BPMNShape id="Gateway_0zu4qz6_di" bpmnElement="Gateway_0zu4qz6" isMarkerVisible="true" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
         <dc:Bounds x="3675" y="1245" width="50" height="50" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_1u2qtgv_di" bpmnElement="Gateway_1u2qtgv" isMarkerVisible="true">
-        <dc:Bounds x="4455" y="365" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_0250vgt_di" bpmnElement="Gateway_1yfneli" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
         <dc:Bounds x="3925" y="365" width="50" height="50" />
@@ -1871,7 +2141,7 @@ execution.setVariable("protectionPM",false);</camunda:script>
       <bpmndi:BPMNShape id="Activity_164yrq8_di" bpmnElement="Activity_1mqde4m" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
         <dc:Bounds x="330" y="1780" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_1lp4j2g_di" bpmnElement="Gateway_1lp4j2g" isMarkerVisible="true">
+      <bpmndi:BPMNShape id="Gateway_1lp4j2g_di" bpmnElement="Gateway_1lp4j2g" isMarkerVisible="true" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
         <dc:Bounds x="4345" y="365" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_07iuycs_di" bpmnElement="Gateway_07iuycs" isMarkerVisible="true" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
@@ -1879,9 +2149,6 @@ execution.setVariable("protectionPM",false);</camunda:script>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_07sseid_di" bpmnElement="Gateway_07sseid" isMarkerVisible="true" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
         <dc:Bounds x="4225" y="525" width="50" height="50" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_0zpxxuu_di" bpmnElement="Gateway_0zpxxuu" isMarkerVisible="true" bioc:stroke="#0d4372" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#0d4372">
-        <dc:Bounds x="4075" y="765" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_04fq1g1_di" bpmnElement="Gateway_04fq1g1" isMarkerVisible="true" bioc:stroke="#0d4372" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#0d4372">
         <dc:Bounds x="3555" y="435" width="50" height="50" />
@@ -1897,6 +2164,36 @@ execution.setVariable("protectionPM",false);</camunda:script>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_0cjv7gx_di" bpmnElement="Gateway_0cjv7gx" isMarkerVisible="true" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
         <dc:Bounds x="3555" y="248" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0zpxxuu_di" bpmnElement="Gateway_0zpxxuu" isMarkerVisible="true" bioc:stroke="#0d4372" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#0d4372">
+        <dc:Bounds x="4075" y="685" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1nmk0tu_di" bpmnElement="Gateway_1nmk0tu" isMarkerVisible="true" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
+        <dc:Bounds x="1925" y="1795" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0q9wayl" bpmnElement="Activity_002z6fl" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
+        <dc:Bounds x="1900" y="1890" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1jytfch_di" bpmnElement="Gateway_1jytfch" isMarkerVisible="true" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
+        <dc:Bounds x="4445" y="1305" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_04aq4ln" bpmnElement="Gateway_1c4i2aj" isMarkerVisible="true" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
+        <dc:Bounds x="4295" y="2205" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1rhiskc" bpmnElement="Activity_1mwmk3r" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
+        <dc:Bounds x="4200" y="1660" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0dics4o" bpmnElement="Activity_117uf4g" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
+        <dc:Bounds x="4200" y="1470" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1dgy8j9_di" bpmnElement="Gateway_1dgy8j9" isMarkerVisible="true" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
+        <dc:Bounds x="4225" y="1795" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1jia0lo_di" bpmnElement="Event_1jia0lo" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
+        <dc:Bounds x="4232" y="1892" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_0rxfpj8_di" bpmnElement="Flow_0rxfpj8" bioc:stroke="#205022" color:border-color="#205022">
         <di:waypoint x="800" y="2100" />
@@ -2062,7 +2359,7 @@ execution.setVariable("protectionPM",false);</camunda:script>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1ut9nu2_di" bpmnElement="Flow_1ut9nu2" bioc:stroke="#205022" color:border-color="#205022">
         <di:waypoint x="1950" y="2342" />
-        <di:waypoint x="1950" y="1550" />
+        <di:waypoint x="1950" y="1970" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1nzpwb1_di" bpmnElement="Flow_1nzpwb1" bioc:stroke="#831311" color:border-color="#831311">
         <di:waypoint x="1650" y="2342" />
@@ -2119,35 +2416,26 @@ execution.setVariable("protectionPM",false);</camunda:script>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0j0t6f5_di" bpmnElement="Flow_0j0t6f5" bioc:stroke="#205022" color:border-color="#205022">
         <di:waypoint x="4255" y="2100" />
-        <di:waypoint x="4380" y="2100" />
-        <di:waypoint x="4380" y="2212" />
+        <di:waypoint x="4320" y="2100" />
+        <di:waypoint x="4320" y="2205" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="4258" y="2082" width="9" height="14" />
+          <dc:Bounds x="4254" y="2082" width="9" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0t2ivkc_di" bpmnElement="Flow_0t2ivkc" bioc:stroke="#0d4372" color:border-color="#0d4372">
         <di:waypoint x="4135" y="2230" />
-        <di:waypoint x="4362" y="2230" />
+        <di:waypoint x="4295" y="2230" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="4165" y="2213" width="9" height="14" />
+          <dc:Bounds x="4163" y="2213" width="9" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1yv5vlm_di" bpmnElement="Flow_1yv5vlm" bioc:stroke="#831311" color:border-color="#831311">
         <di:waypoint x="4025" y="2360" />
-        <di:waypoint x="4380" y="2360" />
-        <di:waypoint x="4380" y="2248" />
+        <di:waypoint x="4320" y="2360" />
+        <di:waypoint x="4320" y="2260" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="4105" y="2333" width="9" height="14" />
+          <dc:Bounds x="4091" y="2333" width="9" height="14" />
         </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0ghblwh_di" bpmnElement="Flow_0ghblwh" bioc:stroke="#6b3c00" color:border-color="#6b3c00">
-        <di:waypoint x="4480" y="1835" />
-        <di:waypoint x="4480" y="2230" />
-        <di:waypoint x="4398" y="2230" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1vs5hhj_di" bpmnElement="Flow_1vs5hhj" bioc:stroke="#6b3c00" color:border-color="#6b3c00">
-        <di:waypoint x="4480" y="415" />
-        <di:waypoint x="4480" y="1785" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0fplv58_di" bpmnElement="Flow_0fplv58" bioc:stroke="#0d4372" color:border-color="#0d4372">
         <di:waypoint x="2465" y="1270" />
@@ -2228,9 +2516,9 @@ execution.setVariable("protectionPM",false);</camunda:script>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0inm2im_di" bpmnElement="Flow_0inm2im" bioc:stroke="#6b3c00" color:border-color="#6b3c00">
         <di:waypoint x="2240" y="805" />
-        <di:waypoint x="2240" y="140" />
-        <di:waypoint x="4480" y="140" />
-        <di:waypoint x="4480" y="365" />
+        <di:waypoint x="2240" y="760" />
+        <di:waypoint x="4470" y="760" />
+        <di:waypoint x="4470" y="1305" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_14abbbe_di" bpmnElement="Flow_14abbbe">
         <di:waypoint x="2356" y="1020" />
@@ -2359,7 +2647,9 @@ execution.setVariable("protectionPM",false);</camunda:script>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_19b3ly4_di" bpmnElement="Flow_19b3ly4" bioc:stroke="#6b3c00" color:border-color="#6b3c00">
         <di:waypoint x="4395" y="390" />
-        <di:waypoint x="4455" y="390" />
+        <di:waypoint x="4590" y="390" />
+        <di:waypoint x="4590" y="1330" />
+        <di:waypoint x="4495" y="1330" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0e8mnt4_di" bpmnElement="Flow_0e8mnt4" bioc:stroke="#6b3c00" color:border-color="#6b3c00">
         <di:waypoint x="3480" y="390" />
@@ -2388,9 +2678,9 @@ execution.setVariable("protectionPM",false);</camunda:script>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0nl9is1_di" bpmnElement="Flow_0nl9is1" bioc:stroke="#205022" color:border-color="#205022">
         <di:waypoint x="4100" y="575" />
-        <di:waypoint x="4100" y="765" />
+        <di:waypoint x="4100" y="685" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="4101" y="613" width="28" height="14" />
+          <dc:Bounds x="4101" y="594" width="28" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0hubsi5_di" bpmnElement="Flow_0hubsi5" bioc:stroke="#0d4372" color:border-color="#0d4372">
@@ -2421,7 +2711,7 @@ execution.setVariable("protectionPM",false);</camunda:script>
         <di:waypoint x="2780" y="1145" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_06ezur2_di" bpmnElement="Flow_06ezur2" bioc:stroke="#205022" color:border-color="#205022">
-        <di:waypoint x="4100" y="815" />
+        <di:waypoint x="4100" y="735" />
         <di:waypoint x="4100" y="1350" />
         <di:waypoint x="2780" y="1350" />
         <di:waypoint x="2780" y="1395" />
@@ -2448,8 +2738,8 @@ execution.setVariable("protectionPM",false);</camunda:script>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1huzfus_di" bpmnElement="Flow_1huzfus" bioc:stroke="#205022" color:border-color="#205022">
         <di:waypoint x="4250" y="575" />
-        <di:waypoint x="4250" y="790" />
-        <di:waypoint x="4125" y="790" />
+        <di:waypoint x="4250" y="710" />
+        <di:waypoint x="4125" y="710" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0g7ai4a_di" bpmnElement="Flow_0g7ai4a" bioc:stroke="#831311" color:border-color="#831311">
         <di:waypoint x="4125" y="220" />
@@ -2471,6 +2761,40 @@ execution.setVariable("protectionPM",false);</camunda:script>
         <di:waypoint x="4250" y="323" />
         <di:waypoint x="3580" y="323" />
         <di:waypoint x="3580" y="298" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0dbe9fh_di" bpmnElement="Flow_0dbe9fh" bioc:stroke="#205022" color:border-color="#205022">
+        <di:waypoint x="1950" y="1890" />
+        <di:waypoint x="1950" y="1845" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12v5ill_di" bpmnElement="Flow_12v5ill" bioc:stroke="#6b3c00" color:border-color="#6b3c00">
+        <di:waypoint x="4345" y="2230" />
+        <di:waypoint x="4470" y="2230" />
+        <di:waypoint x="4470" y="1355" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_06hbe2u_di" bpmnElement="Flow_06hbe2u" bioc:stroke="#6b3c00" color:border-color="#6b3c00">
+        <di:waypoint x="1950" y="1795" />
+        <di:waypoint x="1950" y="1550" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_01ovbm6_di" bpmnElement="Flow_01ovbm6" bioc:stroke="#6b3c00" color:border-color="#6b3c00">
+        <di:waypoint x="4225" y="1820" />
+        <di:waypoint x="1975" y="1820" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0kpgjby_di" bpmnElement="Flow_0kpgjby" bioc:stroke="#6b3c00" color:border-color="#6b3c00">
+        <di:waypoint x="4445" y="1330" />
+        <di:waypoint x="4250" y="1330" />
+        <di:waypoint x="4250" y="1470" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_05jyfbl_di" bpmnElement="Flow_05jyfbl" bioc:stroke="#6b3c00" color:border-color="#6b3c00">
+        <di:waypoint x="4250" y="1550" />
+        <di:waypoint x="4250" y="1660" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_00gk9hf_di" bpmnElement="Flow_00gk9hf" bioc:stroke="#6b3c00" color:border-color="#6b3c00">
+        <di:waypoint x="4250" y="1740" />
+        <di:waypoint x="4250" y="1795" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0zyncqx_di" bpmnElement="Flow_0zyncqx" bioc:stroke="#6b3c00" color:border-color="#6b3c00">
+        <di:waypoint x="4250" y="1845" />
+        <di:waypoint x="4250" y="1892" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
