@@ -94,7 +94,7 @@
       <bpmn:outgoing>Flow_03vlw4z</bpmn:outgoing>
       <bpmn:outgoing>Flow_0ms2o3l</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:userTask id="Activity_1rje9nz" name="بررسی واحد جوش" camunda:formKey="embedded:/forms/formio.html?deployment=CheckFormW.json&#38;var=requestData" camunda:assignee="weld">
+    <bpmn:userTask id="Activity_1rje9nz" name="بررسی واحد جوش" camunda:formKey="embedded:/forms/formio.html?deployment=CheckFormW.json&#38;var=requestData" camunda:assignee="${starter}">
       <bpmn:extensionElements>
         <camunda:taskListener event="complete">
           <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
@@ -107,18 +107,52 @@ var query = task
   .userIdIn(task.assignee);
 var users = [];
 users = query.list();
-docDescriptionW = x.data.processData.docDescriptionW;
-completeDocW = x.data.processData.completeDocW;
 
 task.execution.setVariable(
   "guFullName",
   users.get(0).getFirstName() + " " + users.get(0).getLastName()
 );
+
+// Retrieve the execution context
+//var execution = executionContext.getExecution();
+var execution = task.execution;
+
+// Get the activity instance ID
+var activityInstanceId = execution.getActivityInstanceId();
+var taskId = task.execution.getVariable("taskId");
+
+// Use a regular expression to extract the process definition key
+var processDefinitionKey = activityInstanceId.match(/^(.*?):/)[1];
+
+task.execution.setVariable(
+  "activityInstanceId", processDefinitionKey);
+
+var timeQuery = task
+.getProcessEngineServices()
+.getHistoryService()
+.createHistoricTaskInstanceQuery()
+.taskId(taskId);
+//.activityInstanceIdIn(activityInstanceId);
+var times = [];
+var times = timeQuery.list();
+var endTime = times.get(0).getEndTime();
+
+//task.execution.setVariable("timeQuery", timeQuery);
+
+task.execution.setVariable(
+  "endTime", endTime);
+
+
+
+docDescriptionW = x.data.processData.docDescriptionW;
+completeDocW = x.data.processData.completeDocW;
+
+
 if (completeDocW == "yes") {
   if (textTemplate != "") {
-    disabledTextW = disabledTextW + "&lt;br&gt;" + guFullName + ": " + textTemplate;
+    disabledTextW = disabledTextW + "&lt;br&gt;" + guFullName + ": " + textTemplate + endTime;
   } else {
-    disabledTextW = disabledTextW + "&lt;br&gt;" + guFullName + ": " + "(بدون کامنت)";
+    disabledTextW = disabledTextW + "&lt;br&gt;" + guFullName + ": " + "(بدون کامنت)" + endTime;
   }
 } else {
   if (disabledTextW != "") {
@@ -2518,12 +2552,6 @@ task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camun
           <dc:Bounds x="2339" y="943" width="16" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0inm2im_di" bpmnElement="Flow_0inm2im" bioc:stroke="#6b3c00" color:border-color="#6b3c00">
-        <di:waypoint x="2240" y="805" />
-        <di:waypoint x="2240" y="770" />
-        <di:waypoint x="4450" y="770" />
-        <di:waypoint x="4450" y="1485" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_14abbbe_di" bpmnElement="Flow_14abbbe">
         <di:waypoint x="2356" y="1020" />
         <di:waypoint x="2505" y="1020" />
@@ -2649,12 +2677,6 @@ task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camun
         <di:waypoint x="3290" y="390" />
         <di:waypoint x="3380" y="390" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_19b3ly4_di" bpmnElement="Flow_19b3ly4" bioc:stroke="#6b3c00" color:border-color="#6b3c00">
-        <di:waypoint x="4395" y="390" />
-        <di:waypoint x="4540" y="390" />
-        <di:waypoint x="4540" y="1510" />
-        <di:waypoint x="4475" y="1510" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0e8mnt4_di" bpmnElement="Flow_0e8mnt4" bioc:stroke="#6b3c00" color:border-color="#6b3c00">
         <di:waypoint x="3480" y="390" />
         <di:waypoint x="3925" y="390" />
@@ -2774,6 +2796,18 @@ task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camun
         <di:waypoint x="4345" y="2230" />
         <di:waypoint x="4450" y="2230" />
         <di:waypoint x="4450" y="1535" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_19b3ly4_di" bpmnElement="Flow_19b3ly4" bioc:stroke="#6b3c00" color:border-color="#6b3c00">
+        <di:waypoint x="4395" y="390" />
+        <di:waypoint x="4540" y="390" />
+        <di:waypoint x="4540" y="1510" />
+        <di:waypoint x="4475" y="1510" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0inm2im_di" bpmnElement="Flow_0inm2im" bioc:stroke="#6b3c00" color:border-color="#6b3c00">
+        <di:waypoint x="2240" y="805" />
+        <di:waypoint x="2240" y="770" />
+        <di:waypoint x="4450" y="770" />
+        <di:waypoint x="4450" y="1485" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_06hbe2u_di" bpmnElement="Flow_06hbe2u" bioc:stroke="#6b3c00" color:border-color="#6b3c00">
         <di:waypoint x="1950" y="1795" />
