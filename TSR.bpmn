@@ -34,7 +34,7 @@
         <bpmn:flowNodeRef>Activity_117uf4g</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_1jytfch</bpmn:flowNodeRef>
       </bpmn:lane>
-      <bpmn:lane id="Lane_1ja24ae" name="بازرسی فنی">
+      <bpmn:lane id="Lane_1ja24ae_inspection" name="بازرسی فنی">
         <bpmn:flowNodeRef>Gateway_0i1kuth</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_1rje9nz</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_0fz8tmq</bpmn:flowNodeRef>
@@ -63,7 +63,7 @@
         <bpmn:flowNodeRef>Gateway_1c4i2aj</bpmn:flowNodeRef>
         <bpmn:childLaneSet id="LaneSet_0v48u4h" />
       </bpmn:lane>
-      <bpmn:lane id="Lane_13uu65h" name="برنامه ریزی مهندسی">
+      <bpmn:lane id="Lane_13uu65h_ePlanning" name="برنامه ریزی مهندسی">
         <bpmn:flowNodeRef>Activity_1kmhgnj</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_1gwcctk</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_1g0oh2b</bpmn:flowNodeRef>
@@ -94,72 +94,55 @@
       <bpmn:outgoing>Flow_03vlw4z</bpmn:outgoing>
       <bpmn:outgoing>Flow_0ms2o3l</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:userTask id="Activity_1rje9nz" name="بررسی واحد جوش" camunda:formKey="embedded:/forms/formio.html?deployment=CheckFormW.json&#38;var=requestData" camunda:assignee="${starter}">
+    <bpmn:userTask id="Activity_1rje9nz" name="بررسی واحد جوش" camunda:formKey="embedded:/forms/formio.html?deployment=CheckFormW.json&#38;var=requestData" camunda:assignee="${starter}" camunda:candidateGroups="inspection">
       <bpmn:extensionElements>
         <camunda:taskListener event="complete">
           <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
 var disabledTextW = x.data.processData.disabledTextW;
 var textTemplate = x.data.processData.textTemplate;
+
+//Retrieve the assignee query of the currnet task instance
 var query = task
   .getProcessEngineServices()
   .getIdentityService()
   .createUserQuery()
   .userIdIn(task.assignee);
+
+//Retrieve the only member of the array object
 var users = [];
 users = query.list();
+var userFullName = users.get(0).getFirstName() + " " + users.get(0).getLastName();
 
-task.execution.setVariable(
-  "guFullName",
-  users.get(0).getFirstName() + " " + users.get(0).getLastName()
-);
-
-// Retrieve the execution context
-//var execution = executionContext.getExecution();
-var execution = task.execution;
-
-// Get the activity instance ID
-var activityInstanceId = execution.getActivityInstanceId();
+// Get the task ID
 var taskId = task.execution.getVariable("taskId");
 
-// Use a regular expression to extract the process definition key
-var processDefinitionKey = activityInstanceId.match(/^(.*?):/)[1];
-
-task.execution.setVariable(
-  "activityInstanceId", processDefinitionKey);
-
+//Retrieve the time query of the currnet task instance
 var timeQuery = task
 .getProcessEngineServices()
 .getHistoryService()
 .createHistoricTaskInstanceQuery()
 .taskId(taskId);
-//.activityInstanceIdIn(activityInstanceId);
+
+//Retrieve the only member of the array object
 var times = [];
-var times = timeQuery.list();
+times = timeQuery.list();
 var endTime = times.get(0).getEndTime();
-
-//task.execution.setVariable("timeQuery", timeQuery);
-
-task.execution.setVariable(
-  "endTime", endTime);
-
-
 
 docDescriptionW = x.data.processData.docDescriptionW;
 completeDocW = x.data.processData.completeDocW;
 
-
 if (completeDocW == "yes") {
   if (textTemplate != "") {
-    disabledTextW = disabledTextW + "&lt;br&gt;" + guFullName + ": " + textTemplate + endTime;
+    disabledTextW = disabledTextW + "&lt;br&gt;" + userFullName + ": " + textTemplate + " in: " + endTime;
   } else {
-    disabledTextW = disabledTextW + "&lt;br&gt;" + guFullName + ": " + "(بدون کامنت)" + endTime;
+    disabledTextW = disabledTextW + "&lt;br&gt;" + userFullName + ": " + "(بدون کامنت)" + " in: " + endTime;
   }
 } else {
   if (disabledTextW != "") {
     disabledTextW =
-      disabledTextW + "&lt;br&gt;" + guFullName + "(شرح نقص): " + docDescriptionW;
+      disabledTextW + "&lt;br&gt;" + userFullName + "(شرح نقص): " + docDescriptionW + " in: " + endTime;
   } else {
-    disabledTextW = guFullName + "(شرح نقص): " + docDescriptionW;
+    disabledTextW = userFullName + "(شرح نقص): " + docDescriptionW + " in: " + endTime;
   }
 }
 
@@ -180,7 +163,7 @@ task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camun
       <bpmn:incoming>Flow_1utx4yq</bpmn:incoming>
       <bpmn:outgoing>Flow_0rxfpj8</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:userTask id="Activity_0fz8tmq" name="بررسی واحد حفاظت" camunda:formKey="embedded:/forms/formio.html?deployment=CheckFormP.json&#38;var=requestData" camunda:assignee="protection">
+    <bpmn:userTask id="Activity_0fz8tmq" name="بررسی واحد حفاظت" camunda:formKey="embedded:/forms/formio.html?deployment=CheckFormP.json&#38;var=requestData" camunda:assignee="${starter}" camunda:candidateGroups="inspection">
       <bpmn:extensionElements>
         <camunda:taskListener event="create">
           <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
@@ -192,38 +175,55 @@ task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camun
           <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
 var disabledTextP = x.data.processData.disabledTextP;
 var textTemplate = x.data.processData.textTemplate;
+
+//Retrieve the assignee query of the currnet task instance
 var query = task
   .getProcessEngineServices()
   .getIdentityService()
   .createUserQuery()
   .userIdIn(task.assignee);
+
+//Retrieve the only member of the array object
 var users = [];
 users = query.list();
+var userFullName = users.get(0).getFirstName() + " " + users.get(0).getLastName();
+
+// Get the task ID
+var taskId = task.execution.getVariable("taskId");
+
+//Retrieve the time query of the currnet task instance
+var timeQuery = task
+.getProcessEngineServices()
+.getHistoryService()
+.createHistoricTaskInstanceQuery()
+.taskId(taskId);
+
+//Retrieve the only member of the array object
+var times = [];
+times = timeQuery.list();
+var endTime = times.get(0).getEndTime();
+
 docDescriptionP = x.data.processData.docDescriptionP;
 completeDocP = x.data.processData.completeDocP;
 
-task.execution.setVariable(
-  "guFullName",
-  users.get(0).getFirstName() + " " + users.get(0).getLastName()
-);
 if (completeDocP == "yes") {
   if (textTemplate != "") {
-    disabledTextP = disabledTextP + "&lt;br&gt;" + guFullName + ": " + textTemplate;
+    disabledTextP = disabledTextP + "&lt;br&gt;" + userFullName + ": " + textTemplate + " in: " + endTime;
   } else {
-    disabledTextP = disabledTextP + "&lt;br&gt;" + guFullName + ": " + "(بدون کامنت)";
+    disabledTextP = disabledTextP + "&lt;br&gt;" + userFullName + ": " + "(بدون کامنت)" + " in: " + endTime;
   }
 } else {
   if (disabledTextP != "") {
     disabledTextP =
-      disabledTextP + "&lt;br&gt;" + guFullName + "(شرح نقص): " + docDescriptionP;
+      disabledTextP + "&lt;br&gt;" + userFullName + "(شرح نقص): " + docDescriptionP + " in: " + endTime;
   } else {
-    disabledTextP = guFullName + "(شرح نقص): " + docDescriptionP;
+    disabledTextP = userFullName + "(شرح نقص): " + docDescriptionP + " in: " + endTime;
   }
 }
 
 x.data.processData.disabledTextP = disabledTextP;
 x.data.processData.textTemplate = "";
-x.data.processData.checkProtection = true;
+x.data.processData.checkPeld = true;
 task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
         </camunda:taskListener>
       </bpmn:extensionElements>
@@ -242,12 +242,11 @@ task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camun
       <bpmn:outgoing>Flow_1utx4yq</bpmn:outgoing>
       <bpmn:outgoing>Flow_1j9rd9a</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:userTask id="Activity_0y3i7v4" name="بررسی رئیس&#10;جوش" camunda:formKey="embedded:/forms/formio.html?deployment=BossFormW.json&#38;var=requestData" camunda:assignee="boss">
+    <bpmn:userTask id="Activity_0y3i7v4" name="بررسی رئیس&#10;جوش" camunda:formKey="embedded:/forms/formio.html?deployment=BossFormW.json&#38;var=requestData" camunda:assignee="${starter}">
       <bpmn:extensionElements>
         <camunda:taskListener event="create">
           <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
 x.data.processData.textTemplate = "";
-//x.data.processData.docDescriptionW = "";
 task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
         </camunda:taskListener>
         <camunda:taskListener event="complete">
@@ -289,7 +288,8 @@ x.data.processData.checkWeld = true;
 task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
         </camunda:taskListener>
         <camunda:executionListener event="end">
-          <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
+          <camunda:script scriptFormat="javascript">//Set global variable of the submitted group total information
+var x = JSON.parse(requestData);
 execution.setVariable("w", org.camunda.spin.Spin.JSON(x));
 </camunda:script>
         </camunda:executionListener>
@@ -302,7 +302,7 @@ execution.setVariable("w", org.camunda.spin.Spin.JSON(x));
       <bpmn:outgoing>Flow_0iucckv</bpmn:outgoing>
       <bpmn:outgoing>Flow_0amzdvw</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:userTask id="Activity_0a4k6rm" name="بررسی رئیس&#10;حفاظت" camunda:formKey="embedded:/forms/formio.html?deployment=BossFormP.json&#38;var=requestData" camunda:assignee="boss">
+    <bpmn:userTask id="Activity_0a4k6rm" name="بررسی رئیس&#10;حفاظت" camunda:formKey="embedded:/forms/formio.html?deployment=BossFormP.json&#38;var=requestData" camunda:assignee="${starter}" camunda:candidateGroups="inspection">
       <bpmn:extensionElements>
         <camunda:taskListener event="create">
           <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
@@ -311,49 +311,63 @@ task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camun
         </camunda:taskListener>
         <camunda:taskListener event="complete">
           <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
-
-//task.execution.setVariable("p", org.camunda.spin.Spin.JSON(x));
-
-var disabledTextP = x.data.processData.disabledTextP;
+var disabledTextW = x.data.processData.disabledTextW;
 var textTemplate = x.data.processData.textTemplate;
+
+//Retrieve the assignee query of the currnet task instance
 var query = task
   .getProcessEngineServices()
   .getIdentityService()
   .createUserQuery()
   .userIdIn(task.assignee);
+
+//Retrieve the only member of the array object
 var users = [];
 users = query.list();
-docDescriptionP = x.data.processData.docDescriptionP;
-completeDocP = x.data.processData.completeDocP;
+var userFullName = users.get(0).getFirstName() + " " + users.get(0).getLastName();
 
-task.execution.setVariable(
-  "guFullName",
-  users.get(0).getFirstName() + " " + users.get(0).getLastName()
-);
-if (completeDocP == "yes") {
+// Get the task ID
+var taskId = task.execution.getVariable("taskId");
+
+//Retrieve the time query of the currnet task instance
+var timeQuery = task
+.getProcessEngineServices()
+.getHistoryService()
+.createHistoricTaskInstanceQuery()
+.taskId(taskId);
+
+//Retrieve the only member of the array object
+var times = [];
+times = timeQuery.list();
+var endTime = times.get(0).getEndTime();
+
+docDescriptionW = x.data.processData.docDescriptionW;
+completeDocW = x.data.processData.completeDocW;
+
+if (completeDocW == "yes") {
   if (textTemplate != "") {
-    disabledTextP = disabledTextP + "&lt;br&gt;" + guFullName + ": " + textTemplate;
+    disabledTextW = disabledTextW + "&lt;br&gt;" + userFullName + ": " + textTemplate + " in: " + endTime;
   } else {
-    disabledTextP = disabledTextP + "&lt;br&gt;" + guFullName + ": " + "(بدون کامنت)";
+    disabledTextW = disabledTextW + "&lt;br&gt;" + userFullName + ": " + "(بدون کامنت)" + " in: " + endTime;
   }
 } else {
-  if (disabledTextP != "") {
-    disabledTextP =
-      disabledTextP + "&lt;br&gt;" + guFullName + "(شرح نقص): " + docDescriptionP;
+  if (disabledTextW != "") {
+    disabledTextW =
+      disabledTextW + "&lt;br&gt;" + userFullName + "(شرح نقص): " + docDescriptionW + " in: " + endTime;
   } else {
-    disabledTextP = guFullName + "(شرح نقص): " + docDescriptionP;
+    disabledTextW = userFullName + "(شرح نقص): " + docDescriptionW + " in: " + endTime;
   }
 }
 
-x.data.processData.disabledTextP = disabledTextP;
+x.data.processData.disabledTextW = disabledTextW;
 x.data.processData.textTemplate = "";
-x.data.processData.checkProtection = true;
+x.data.processData.checkWeld = true;
 task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
         </camunda:taskListener>
         <camunda:executionListener event="end">
-          <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
-execution.setVariable("p", org.camunda.spin.Spin.JSON(x));
-</camunda:script>
+          <camunda:script scriptFormat="javascript">//Set global variable of the submitted group total information
+var x = JSON.parse(requestData);
+execution.setVariable("p", org.camunda.spin.Spin.JSON(x));</camunda:script>
         </camunda:executionListener>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0c9kd76</bpmn:incoming>
@@ -375,44 +389,87 @@ execution.setVariable("p", org.camunda.spin.Spin.JSON(x));
       <bpmn:outgoing>Flow_0eacik5</bpmn:outgoing>
       <bpmn:outgoing>Flow_1oce1r7</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:userTask id="Activity_1ewimjv" name="بررسی واحد مکانیک" camunda:formKey="embedded:/forms/formio.html?deployment=CheckFormM.json&#38;var=requestData" camunda:assignee="${starter}">
+    <bpmn:userTask id="Activity_1ewimjv" name="بررسی واحد مکانیک" camunda:formKey="embedded:/forms/formio.html?deployment=CheckFormM.json&#38;var=requestData" camunda:assignee="${starter}" camunda:candidateGroups="inspectionMechanic">
       <bpmn:extensionElements>
         <camunda:taskListener event="complete">
           <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
 var disabledTextM = x.data.processData.disabledTextM;
 var textTemplate = x.data.processData.textTemplate;
+
+//Retrieve the assignee query of the currnet task instance
 var query = task
   .getProcessEngineServices()
   .getIdentityService()
   .createUserQuery()
   .userIdIn(task.assignee);
+
+//Retrieve the only member of the array object
 var users = [];
 users = query.list();
+var userFullName = users.get(0).getFirstName() + " " + users.get(0).getLastName();
+
+// Get the task ID
+var taskId = task.execution.getVariable("taskId");
+
+//Retrieve the time query of the currnet task instance
+var timeQuery = task
+.getProcessEngineServices()
+.getHistoryService()
+.createHistoricTaskInstanceQuery()
+.taskId(taskId);
+
+//Retrieve the only member of the array object
+var times = [];
+times = timeQuery.list();
+var inputDateString = times.get(0).getEndTime();
+
+// Function to parse the input date string into a Date object
+function parseDateString(inputDateString) {
+    return new Date(Date.parse(inputDateString));
+}
+
+// Function to format the Date object into the desired format
+function formatDateString(date) {
+    var day = date.getDate();
+    var month = date.getMonth() + 1; // Months are zero-based
+    var year = date.getFullYear();
+    var hour = date.getHours();
+    var minute = date.getMinutes();
+
+    // Format the components into the desired string
+    var formattedString = day + '/' + (month &lt; 10 ? '0' : '') + month + '/' + year + ' ' + hour + ':' + (minute &lt; 10 ? '0' : '') + minute;
+
+    return formattedString;
+}
+
+// Parse the input date string into a Date object
+var date = parseDateString(inputDateString);
+
+// Format the Date object into the desired format
+var endTime = formatDateString(date);
+task.execution.setVariable("endTim", endTime);
+
 docDescriptionM = x.data.processData.docDescriptionM;
 completeDocM = x.data.processData.completeDocM;
 
-task.execution.setVariable(
-  "guFullName",
-  users.get(0).getFirstName() + " " + users.get(0).getLastName()
-);
 if (completeDocM == "yes") {
   if (textTemplate != "") {
-    disabledTextM = disabledTextM + "&lt;br&gt;" + guFullName + ": " + textTemplate;
+    disabledTextM = disabledTextM + "&lt;br&gt;" + userFullName + ": " + textTemplate + " in: " + endTime;
   } else {
-    disabledTextM = disabledTextM + "&lt;br&gt;" + guFullName + ": " + "(بدون کامنت)";
+    disabledTextM = disabledTextM + "&lt;br&gt;" + userFullName + ": " + "(بدون کامنت)" + " in: " + endTime;
   }
 } else {
   if (disabledTextM != "") {
     disabledTextM =
-      disabledTextM + "&lt;br&gt;" + guFullName + "(شرح نقص): " + docDescriptionM;
+      disabledTextM + "&lt;br&gt;" + userFullName + "(شرح نقص): " + docDescriptionM + " in: " + endTime;
   } else {
-    disabledTextM = guFullName + "(شرح نقص): " + docDescriptionM;
+    disabledTextM = userFullName + "(شرح نقص): " + docDescriptionM + " in: " + endTime;
   }
 }
 
 x.data.processData.disabledTextM = disabledTextM;
 x.data.processData.textTemplate = "";
-x.data.processData.checkMechanic = true;
+x.data.processData.checkMeld = true;
 task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
         </camunda:taskListener>
         <camunda:taskListener event="create">
@@ -427,45 +484,61 @@ task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camun
       <bpmn:incoming>Flow_0iucckv</bpmn:incoming>
       <bpmn:outgoing>Flow_04kuq4v</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:userTask id="Activity_03xy3td" name="بررسی رئیس&#10;مکانیک" camunda:formKey="embedded:/forms/formio.html?deployment=BossFormM.json&#38;var=requestData" camunda:assignee="mechanic">
+    <bpmn:userTask id="Activity_03xy3td" name="بررسی رئیس&#10;مکانیک" camunda:formKey="embedded:/forms/formio.html?deployment=BossFormM.json&#38;var=requestData" camunda:assignee="${starter}">
       <bpmn:extensionElements>
         <camunda:taskListener event="complete">
           <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
-
 var disabledTextM = x.data.processData.disabledTextM;
 var textTemplate = x.data.processData.textTemplate;
+
+//Retrieve the assignee query of the currnet task instance
 var query = task
   .getProcessEngineServices()
   .getIdentityService()
   .createUserQuery()
   .userIdIn(task.assignee);
+
+//Retrieve the only member of the array object
 var users = [];
 users = query.list();
+var userFullName = users.get(0).getFirstName() + " " + users.get(0).getLastName();
+
+// Get the task ID
+var taskId = task.execution.getVariable("taskId");
+
+//Retrieve the time query of the currnet task instance
+var timeQuery = task
+.getProcessEngineServices()
+.getHistoryService()
+.createHistoricTaskInstanceQuery()
+.taskId(taskId);
+
+//Retrieve the only member of the array object
+var times = [];
+times = timeQuery.list();
+var endTime = times.get(0).getEndTime();
+
 docDescriptionM = x.data.processData.docDescriptionM;
 completeDocM = x.data.processData.completeDocM;
 
-task.execution.setVariable(
-  "guFullName",
-  users.get(0).getFirstName() + " " + users.get(0).getLastName()
-);
 if (completeDocM == "yes") {
   if (textTemplate != "") {
-    disabledTextM = disabledTextM + "&lt;br&gt;" + guFullName + ": " + textTemplate;
+    disabledTextM = disabledTextM + "&lt;br&gt;" + userFullName + ": " + textTemplate + " in: " + endTime;
   } else {
-    disabledTextM = disabledTextM + "&lt;br&gt;" + guFullName + ": " + "(بدون کامنت)";
+    disabledTextM = disabledTextM + "&lt;br&gt;" + userFullName + ": " + "(بدون کامنت)" + " in: " + endTime;
   }
 } else {
   if (disabledTextM != "") {
     disabledTextM =
-      disabledTextM + "&lt;br&gt;" + guFullName + "(شرح نقص): " + docDescriptionM;
+      disabledTextM + "&lt;br&gt;" + userFullName + "(شرح نقص): " + docDescriptionM + " in: " + endTime;
   } else {
-    disabledTextM = guFullName + "(شرح نقص): " + docDescriptionM;
+    disabledTextM = userFullName + "(شرح نقص): " + docDescriptionM + " in: " + endTime;
   }
 }
 
 x.data.processData.disabledTextM = disabledTextM;
 x.data.processData.textTemplate = "";
-x.data.processData.checkMechanic = true;
+x.data.processData.checkMeld = true;
 task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
           <camunda:field />
         </camunda:taskListener>
@@ -475,7 +548,8 @@ x.data.processData.textTemplate = "";
 task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camunda:script>
         </camunda:taskListener>
         <camunda:executionListener event="end">
-          <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
+          <camunda:script scriptFormat="javascript">//Set global variable of the submitted group total information
+var x = JSON.parse(requestData);
 execution.setVariable("m", org.camunda.spin.Spin.JSON(x));
 </camunda:script>
         </camunda:executionListener>
@@ -489,22 +563,46 @@ execution.setVariable("m", org.camunda.spin.Spin.JSON(x));
           <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
 var docDefectPMM = x.data.processData.docDefectPMM;
 var textTemplatePM = x.data.processData.textTemplatePM;
+
+//Retrieve the assignee query of the currnet task instance
 var query = task
   .getProcessEngineServices()
   .getIdentityService()
   .createUserQuery()
   .userIdIn(task.assignee);
 
+//Retrieve the only member of the array object
 var users = [];
 users = query.list();
-task.execution.setVariable(
-  "guFullName",
-  users.get(0).getFirstName() + " " + users.get(0).getLastName()
-);
-if (textTemplatePM != "") {
-  docDefectPMM = docDefectPMM + "&lt;br&gt;" + guFullName + ": " + textTemplatePM;
-} else {
-  docDefectPMM = docDefectPMM + "&lt;br&gt;" + guFullName + ": " + "(بدون کامنت)";
+var userFullName = users.get(0).getFirstName() + " " + users.get(0).getLastName();
+
+// Get the task ID
+var taskId = task.execution.getVariable("taskId");
+
+//Retrieve the time query of the currnet task instance
+var timeQuery = task
+.getProcessEngineServices()
+.getHistoryService()
+.createHistoricTaskInstanceQuery()
+.taskId(taskId);
+
+//Retrieve the only member of the array object
+var times = [];
+times = timeQuery.list();
+var endTime = times.get(0).getEndTime();
+
+if (docDefectPMM == ""){
+    if (textTemplatePM != "") {
+        docDefectPMM = userFullName + ": " + textTemplatePM + " in: " + endTime;
+        } else {
+        docDefectPMM = userFullName + ": " + "(بدون کامنت)" + " in: " + endTime;
+        }
+    } else {
+    if (textTemplatePM != "") {
+    docDefectPMM = docDefectPMM + "&lt;br&gt;" + userFullName + ": " + textTemplatePM + " in: " + endTime;
+    } else {
+    docDefectPMM = docDefectPMM + "&lt;br&gt;" + userFullName + ": " + "(بدون کامنت)" + " in: " + endTime;
+    }
 }
 
 x.data.processData.docDefectPMM = docDefectPMM;
@@ -521,22 +619,46 @@ task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camun
           <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
 var docDefectPMW = x.data.processData.docDefectPMW;
 var textTemplatePM = x.data.processData.textTemplatePM;
+
+//Retrieve the assignee query of the currnet task instance
 var query = task
   .getProcessEngineServices()
   .getIdentityService()
   .createUserQuery()
   .userIdIn(task.assignee);
 
+//Retrieve the only member of the array object
 var users = [];
 users = query.list();
-task.execution.setVariable(
-  "guFullName",
-  users.get(0).getFirstName() + " " + users.get(0).getLastName()
-);
-if (textTemplatePM != "") {
-  docDefectPMW = docDefectPMW + "&lt;br&gt;" + guFullName + ": " + textTemplatePM;
-} else {
-  docDefectPMW = docDefectPMW + "&lt;br&gt;" + guFullName + ": " + "(بدون کامنت)";
+var userFullName = users.get(0).getFirstName() + " " + users.get(0).getLastName();
+
+// Get the task ID
+var taskId = task.execution.getVariable("taskId");
+
+//Retrieve the time query of the currnet task instance
+var timeQuery = task
+.getProcessEngineServices()
+.getHistoryService()
+.createHistoricTaskInstanceQuery()
+.taskId(taskId);
+
+//Retrieve the only member of the array object
+var times = [];
+times = timeQuery.list();
+var endTime = times.get(0).getEndTime();
+
+if (docDefectPMW == ""){
+    if (textTemplatePM != "") {
+        docDefectPMW = userFullName + ": " + textTemplatePM + " in: " + endTime;
+        } else {
+        docDefectPMW = userFullName + ": " + "(بدون کامنت)" + " in: " + endTime;
+        }
+    } else {
+    if (textTemplatePM != "") {
+    docDefectPMW = docDefectPMW + "&lt;br&gt;" + userFullName + ": " + textTemplatePM + " in: " + endTime;
+    } else {
+    docDefectPMW = docDefectPMW + "&lt;br&gt;" + userFullName + ": " + "(بدون کامنت)" + " in: " + endTime;
+    }
 }
 
 x.data.processData.docDefectPMW = docDefectPMW;
@@ -553,22 +675,46 @@ task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camun
           <camunda:script scriptFormat="javascript">var x = JSON.parse(requestData);
 var docDefectPMP = x.data.processData.docDefectPMP;
 var textTemplatePM = x.data.processData.textTemplatePM;
+
+//Retrieve the assignee query of the currnet task instance
 var query = task
   .getProcessEngineServices()
   .getIdentityService()
   .createUserQuery()
   .userIdIn(task.assignee);
 
+//Retrieve the only member of the array object
 var users = [];
 users = query.list();
-task.execution.setVariable(
-  "guFullName",
-  users.get(0).getFirstName() + " " + users.get(0).getLastName()
-);
-if (textTemplatePM != "") {
-  docDefectPMP = docDefectPMP + "&lt;br&gt;" + guFullName + ": " + textTemplatePM;
-} else {
-  docDefectPMP = docDefectPMP + "&lt;br&gt;" + guFullName + ": " + "(بدون کامنت)";
+var userFullName = users.get(0).getFirstName() + " " + users.get(0).getLastName();
+
+// Get the task ID
+var taskId = task.execution.getVariable("taskId");
+
+//Retrieve the time query of the currnet task instance
+var timeQuery = task
+.getProcessEngineServices()
+.getHistoryService()
+.createHistoricTaskInstanceQuery()
+.taskId(taskId);
+
+//Retrieve the only member of the array object
+var times = [];
+times = timeQuery.list();
+var endTime = times.get(0).getEndTime();
+
+if (docDefectPMP == ""){
+    if (textTemplatePM != "") {
+        docDefectPMP = userFullName + ": " + textTemplatePM + " in: " + endTime;
+        } else {
+        docDefectPMP = userFullName + ": " + "(بدون کامنت)" + " in: " + endTime;
+        }
+    } else {
+    if (textTemplatePM != "") {
+    docDefectPMP = docDefectPMP + "&lt;br&gt;" + userFullName + ": " + textTemplatePM + " in: " + endTime;
+    } else {
+    docDefectPMP = docDefectPMP + "&lt;br&gt;" + userFullName + ": " + "(بدون کامنت)" + " in: " + endTime;
+    }
 }
 
 x.data.processData.docDefectPMP = docDefectPMP;
@@ -1181,7 +1327,7 @@ task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camun
       <bpmn:incoming>Flow_06ezur2</bpmn:incoming>
       <bpmn:outgoing>Flow_051h2px</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:userTask id="Activity_1mqde4m" name="ثبت در سیستم" camunda:formKey="embedded:/forms/formio.html?deployment=RequestForm.json&#38;var=requestData" camunda:assignee="${starter}">
+    <bpmn:userTask id="Activity_1mqde4m" name="ثبت در سیستم" camunda:formKey="embedded:/forms/formio.html?deployment=RequestForm.json&#38;var=requestData" camunda:assignee="${starter}" camunda:candidateGroups="engineeringPlanning">
       <bpmn:extensionElements>
         <camunda:executionListener event="end">
           <camunda:script scriptFormat="javascript">execution.setVariable("checkWeld",true);
@@ -1932,11 +2078,11 @@ task.execution.setVariable("requestData", org.camunda.spin.Spin.JSON(x));</camun
         <dc:Bounds x="190" y="80" width="4508" height="580" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Lane_13uu65h_di" bpmnElement="Lane_13uu65h" isHorizontal="true" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
+      <bpmndi:BPMNShape id="Lane_13uu65h_di" bpmnElement="Lane_13uu65h_ePlanning" isHorizontal="true" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
         <dc:Bounds x="190" y="1615" width="4508" height="395" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Lane_1ja24ae_di" bpmnElement="Lane_1ja24ae" isHorizontal="true" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+      <bpmndi:BPMNShape id="Lane_1ja24ae_di" bpmnElement="Lane_1ja24ae_inspection" isHorizontal="true" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
         <dc:Bounds x="190" y="2010" width="4508" height="1250" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
